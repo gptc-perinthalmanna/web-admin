@@ -3,19 +3,26 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "build:tailwind": "tailwind build styles/index.css -o styles/tailwind.css"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@popperjs/core": "^2.11.0",
     "@tailwindcss/forms": "^0.3.4",
+    "axios": "^0.24.0",
     "chart.js": "^2.9.4",
+    "deta": "^1.0.1",
+    "express-jwt": "^6.1.0",
     "gulp": "^4.0.2",
     "gulp-append-prepend": "^1.0.9",
+    "jsonwebtoken": "^8.5.1",
     "next": "latest",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "swr": "^1.1.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.6",

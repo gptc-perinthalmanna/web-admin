@@ -2,33 +2,32 @@ import React from "react";
 
 // components
 
-import CardLineChart from "components/Cards/CardLineChart.js";
-import CardBarChart from "components/Cards/CardBarChart.js";
-import CardPageVisits from "components/Cards/CardPageVisits.js";
-import CardSocialTraffic from "components/Cards/CardSocialTraffic.js";
+import CardMenu from "components/Cards/CardMenu.js";
 
 // layout for page
 
 import Admin from "layouts/Admin.js";
+import { menu } from "constants/menu";
 
 export default function Dashboard() {
   return (
     <>
+    <h2 className="text-2xl font-bold text-white">Dashboard</h2>
       <div className="flex flex-wrap">
-        <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
-          <CardLineChart />
-        </div>
-        <div className="w-full xl:w-4/12 px-4">
-          <CardBarChart />
-        </div>
-      </div>
-      <div className="flex flex-wrap mt-4">
-        <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
-          <CardPageVisits />
-        </div>
-        <div className="w-full xl:w-4/12 px-4">
-          <CardSocialTraffic />
-        </div>
+        {
+          menu.map((item, index) => (
+            item.items.map((subItem, subIndex) => (
+              <CardMenu
+                key={`${index}-${subIndex}`}
+                statTitle={subItem.title}
+                statIconName={subItem.icon}
+                statLink={subItem.link}
+                statSubtitle={item.title}
+              />
+            ))
+          ))
+        }
+     
       </div>
     </>
   );
