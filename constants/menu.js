@@ -20,12 +20,12 @@ export const menu =  [
       {
         title: "Images",
         icon: "fa-images",
-        link: "/images",
+        link: "/admin/images",
       },
       {
         title: "Files",
         icon: "fa-file",
-        link: "/files",
+        link: "/admin/files",
       },
     ],
   },
