@@ -30,6 +30,11 @@ export async function getUser(key: string) {
   return user as unknown as UserType | null;
 }
 
+export async function getUserbyUsername(username: string) {
+  const users = await usersDb.fetch({phone: username});
+  return users.count > 0 ? (users.items as unknown as UserType[])[0] : null;
+}
+
 export async function createUser(user: any) {
   const newUser = await usersDb.put(user);
   return newUser as unknown as UserType | undefined;

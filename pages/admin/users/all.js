@@ -9,7 +9,7 @@ export default function Dashboard() {
     <>
       <div className="flex flex-wrap">
         <div className="w-full p-3 xl:w-1/2">
-      <UserCard />
+          <UserCard />
         </div>
       </div>
     </>
