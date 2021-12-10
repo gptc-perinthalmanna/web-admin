@@ -80,7 +80,7 @@ export const menu =  [
       {
         title: "All Users",
         icon: "fa-users",
-        link: "/users",
+        link: "/admin/users/all",
       },
 
       {
