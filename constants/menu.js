@@ -35,22 +35,22 @@ export const menu =  [
       {
         title: "Facilities",
         icon: "fa-building",
-        link: "/facilities",
+        link: "/admin/facilities",
       },
       {
         title: "Campus",
         icon: "fa-map-marked-alt",
-        link: "/campus",
+        link: "/admin/campus",
       },
       {
         title: "Departments",
         icon: "fa-building",
-        link: "/departments",
+        link: "/admin/departments",
       },
       {
         title: "Custom Pages",
         icon: "fa-file",
-        link: "/custom-pages",
+        link: "/admin/custom-pages",
       },
     ],
   },
@@ -60,17 +60,17 @@ export const menu =  [
       {
         title: "Committees",
         icon: "fa-users",
-        link: "/committees",
+        link: "/admin/committees",
       },
       {
         title: "Highlighted Event",
         icon: "fa-calendar-alt",
-        link: "/highlighted-event",
+        link: "/admin/highlighted-event",
       },
       {
         title: "hero Images",
         icon: "fa-images",
-        link: "/hero-images",
+        link: "/admin/hero-images",
       },
     ],
   },

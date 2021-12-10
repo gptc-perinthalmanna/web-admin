@@ -84,7 +84,6 @@ export interface FacilityPageType {
 
 export interface ImageType {
   key: string;
-
   id: string;
   title: string;
   url_viewer: string;
