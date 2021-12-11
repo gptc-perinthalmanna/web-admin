@@ -10,7 +10,8 @@ import { getUserbyUsername } from "server/users";
 export default withIronSessionApiRoute(loginRoute, sessionOptions);
 
 async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
-  const { username, password } = JSON.parse(await req.body);
+  console.log(req.body)
+  const { username, password } = await req.body;
   try {
     const userDB = await getUserbyUsername(username);
     const isValid = await bcrypt.compare(password, userDB.password);

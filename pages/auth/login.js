@@ -1,11 +1,31 @@
 import React from "react";
+import axios from "axios";
 
-
-// layout for page
-
+import useUser from 'lib/useUser'
 import Auth from "layouts/Auth.js";
 
 export default function Login() {
+    // here we just check if user is already logged in and redirect to profile
+    const { mutateUser } = useUser({
+      redirectTo: '/admin/dashboard',
+      redirectIfFound: true,
+    })
+    
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const body = {
+      username: e.currentTarget.username.value,
+      password: e.currentTarget.password.value,
+    }
+    try {
+      axios.post('/api/login', body)
+        .then(res => {
+          mutateUser(res.data)
+        })
+    } catch (error) {
+      console.log(error)
+    }
+  };
   return (
     <>
       <div className="container h-full px-4 mx-auto">
@@ -15,15 +35,14 @@ export default function Login() {
               <div className="px-6 py-6 mb-0 rounded-t">
                 <div className="mb-3 text-center">
                   <h6 className="text-sm font-bold text-blueGray-500">
-                    Sign in 
+                    Sign in
                   </h6>
                 </div>
-              
+
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
               </div>
               <div className="flex-auto px-4 py-10 pt-0 lg:px-10">
-               
-                <form>
+                <form onSubmit={onSubmit}>
                   <div className="relative w-full mb-3">
                     <label
                       className="block mb-2 text-xs font-bold uppercase text-blueGray-600"
@@ -32,9 +51,10 @@ export default function Login() {
                       Email
                     </label>
                     <input
-                      type="email"
+                      type="number"
+                      name="username"
                       className="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
-                      placeholder="Email"
+                      placeholder="Phone Number"
                     />
                   </div>
 
@@ -47,6 +67,7 @@ export default function Login() {
                     </label>
                     <input
                       type="password"
+                      name="password"
                       className="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
                       placeholder="Password"
                     />
@@ -67,7 +88,8 @@ export default function Login() {
                   <div className="mt-6 text-center">
                     <button
                       className="w-full px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-800 active:bg-blueGray-600 hover:shadow-lg focus:outline-none"
-                      type="button"
+                      type="submit"
+    
                     >
                       Sign In
                     </button>
@@ -75,7 +97,6 @@ export default function Login() {
                 </form>
               </div>
             </div>
-            
           </div>
         </div>
       </div>

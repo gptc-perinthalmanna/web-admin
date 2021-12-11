@@ -1,16 +1,17 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React from "react";
-import Link from "next/link";
-
-import IndexNavbar from "components/Navbars/IndexNavbar.js";
-import Footer from "components/Footers/Footer.js";
+import useUser from "lib/useUser";
+import Router from 'next/router'
 
 export default function Index() {
-  return (
-    <>
-      <IndexNavbar />
-  
-      <Footer />
-    </>
-  );
+     // here we just check if user is already logged in and redirect to profile
+  useUser({
+    redirectTo: '/admin/dashboard',
+    redirectIfFound: true,
+  })
+
+  React.useEffect(() => {
+    Router.push('/auth/login')
+  }, [])
+  return null
 }
