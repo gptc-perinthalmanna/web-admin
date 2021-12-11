@@ -12,7 +12,8 @@ function FacilityItem({
   onDelete,
 }) {
   return (
-    <div className="flex overflow-hidden bg-white border-transparent rounded-lg shadow-lg">
+    <div className="w-full p-3 xl:w-1/2">
+    <div className="flex my-2 overflow-hidden bg-white border-transparent rounded-lg shadow-lg">
       <div className="flex flex-col flex-grow p-5 text-gray-700 bg-teal-50">
         <div className="flex justify-between">
           <h3 className="text-xl font-bold">{title}</h3>
@@ -39,7 +40,7 @@ function FacilityItem({
           </div>
         </div>
       </div>
-    </div>
+    </div></div>
   );
 }
 

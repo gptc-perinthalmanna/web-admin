@@ -2,7 +2,7 @@ import React from 'react'
 
 function PageTitle({children}) {
     return (
-        <h2 className="text-2xl font-bold text-white">{children}</h2>
+        <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">{children}</h2>
     )
 }
 

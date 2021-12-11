@@ -5,7 +5,7 @@ import FacilityItem from "components/Page/FacilityItem";
 import PageTitle from "components/Ui/PageTitle";
 
 export default function Dashboard() {
-  fetchData("/api/events");
+  const { data, error } = fetchData("/api/admin/campus/all");
   return (
     <>
      <PageTitle>Committiees</PageTitle>

@@ -124,7 +124,7 @@ export async function getAllCampus() {
 }
 
 
-async function populateStaffs(staffs_ids: string[], staffsDir: { [key:string] : UserType} ) {
+export async function populateStaffs(staffs_ids: string[], staffsDir: { [key:string] : UserType} ) {
   let unresolvedpromises = staffs_ids.map(async (element) => {
     if (element in staffsDir) {
       return staffsDir[element]

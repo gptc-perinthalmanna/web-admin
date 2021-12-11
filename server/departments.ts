@@ -6,6 +6,7 @@ import {
   usersDb,
   UserType,
 } from "./db";
+import { populateStaffs } from "./pages";
 
 export async function getDepartments(key: string) {
   const department = (await departmentsDB.get(
@@ -43,5 +44,12 @@ export async function createDepartmentPage(data: any) {
 
 
 export async function getAllDepartments() {
-  return (await departmentsDB.fetch()).items as unknown as DepartmentsType[] | null;
+  const dept = (await departmentsDB.fetch()).items as unknown as DepartmentsType[] | null;
+  let _staffsDir: { [key:string] : UserType} = {};  // Cache staffs
+  const ret = dept.map(async (campus) => {
+    let {staffs, staffsDir} = await populateStaffs(campus.staffs_ids, _staffsDir)
+    _staffsDir = staffsDir;
+    return {...campus, staffs}
+  })
+  return await Promise.all(ret)
 }
