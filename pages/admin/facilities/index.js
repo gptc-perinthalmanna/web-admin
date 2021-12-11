@@ -1,4 +1,6 @@
 import React from "react";
+import { useRouter } from 'next/router'
+
 import Admin from "layouts/Admin.js";
 import { fetchData } from "helpers/fetcher";
 import FacilityItem from "components/Page/FacilityItem";
@@ -6,6 +8,7 @@ import PageTitle from "components/Ui/PageTitle";
 
 export default function Dashboard() {
   const { data, error } = fetchData("/api/admin/facilities/all");
+  const router = useRouter();
   return (
     <>
       <PageTitle>Facilities</PageTitle>
@@ -22,8 +25,7 @@ export default function Dashboard() {
                 name: staff.name,
                 description: staff.department,
               }))}
-              onEdit={() => {}}
-              onDelete={() => {}}
+              onEdit={() => router.push(`/admin/facilities/edit/${facility.key}`)}
             />
           ))}
       </div>

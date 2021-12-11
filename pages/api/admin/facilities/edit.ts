@@ -1,8 +1,8 @@
 import adminRoute from "helpers/routes/adminRoute";
 import * as yup from "yup";
-import { FacilityPageType } from "../../../../server/db";
-import { validation } from "../../../../helpers/validation";
-import { createPage } from "../../../../server/pages";
+import { FacilityPageType } from "server/db";
+import { validation } from "helpers/validation";
+import { createPage } from "server/pages";
 
 const userValidationSchema: yup.SchemaOf<{}> = yup.object().shape({
   key: yup.string().required(),
