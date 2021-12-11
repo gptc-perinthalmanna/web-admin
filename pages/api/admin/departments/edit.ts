@@ -1,7 +1,7 @@
 import * as yup from "yup";
-import { DepartmentsType } from "../../../../server/db";
-import { createDepartmentPage } from "../../../../server/departments";
-import { validation } from "../../../../helpers/validation";
+import { DepartmentsType } from "server/db";
+import { createDepartmentPage } from "server/departments";
+import { validation } from "helpers/validation";
 import adminRoute from "helpers/routes/adminRoute";
 
 
