@@ -1,6 +1,6 @@
 import adminRoute from "helpers/routes/adminRoute";
-import { getAllFIles } from "server/files";
+import { getAllNews } from "server/newsAndMedia";
 
 export default adminRoute(async () => {
-  return await getAllFIles();
+  return await getAllNews();
 });
