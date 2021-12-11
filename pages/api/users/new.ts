@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { UserType } from "../../../server/db";
 import { createUser } from "../../../server/users";
 import bcrypt from "bcryptjs";
-import { validation } from "../../../server/helper/validation";
+import { validation } from "../../../helpers/validation";
 
 const userValidationSchema: yup.SchemaOf<{}> = yup.object().shape({
   key: yup.string().default(function () {
