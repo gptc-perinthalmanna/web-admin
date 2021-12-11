@@ -10,13 +10,11 @@ interface StaffType {
   };
 }
 
-
 interface PhotoType {
   src: string;
   alt: string;
   thumbnail: string;
 }
-
 
 export async function getFacilities(key: string) {
   const facility = (await facilitiesDb.get(
@@ -48,7 +46,6 @@ export async function getFacilities(key: string) {
     return staff
   });
   if (unresolvedpromises) await Promise.all(unresolvedpromises)
-
   return {...facility, photos, staffs};
 }
 
@@ -57,10 +54,8 @@ export async function getCampus(key: string) {
   if (!campus || campus == null) {
     return null;
   }
-
   let unresolvedpromises: any
   let staffs : UserType[] = [];
-
   unresolvedpromises = campus.staffs_ids?.map(async (element) => {
     const staff = (await usersDb.get(element)) as unknown as UserType | null;
     if (staff) {
@@ -68,13 +63,9 @@ export async function getCampus(key: string) {
     }
     return staff
   })
-
-
-
   if (unresolvedpromises) await Promise.all(unresolvedpromises)
   return {...campus, staffs};
 }
-
 
 
 export async function getEvents(page_id: string) {
@@ -107,3 +98,44 @@ export async function createPage(type = 'facility', data: any) {
     return campus;
   }
 }
+
+
+export async function getAllFacilites() {
+  const facilities = (await facilitiesDb.fetch()).items as unknown as FacilityPageType[] | null;
+  let _staffsDir: { [key:string] : UserType} = {};  // Cache staffs
+  const ret = facilities.map(async (facility) => {
+    let {staffs, staffsDir} = await populateStaffs(facility.staffs_ids, _staffsDir)
+    _staffsDir = staffsDir;
+    return {...facility, staffs}
+  })
+  return await Promise.all(ret)
+}
+
+
+export async function getAllCampus() {
+  const campus = (await campusDB.fetch()).items as unknown as CampusPageType[] | null;
+  let _staffsDir: { [key:string] : UserType} = {};  // Cache staffs
+  const ret = campus.map(async (campus) => {
+    let {staffs, staffsDir} = await populateStaffs(campus.staffs_ids, _staffsDir)
+    _staffsDir = staffsDir;
+    return {...campus, staffs}
+  })
+  return await Promise.all(ret)
+}
+
+
+async function populateStaffs(staffs_ids: string[], staffsDir: { [key:string] : UserType} ) {
+  let unresolvedpromises = staffs_ids.map(async (element) => {
+    if (element in staffsDir) {
+      return staffsDir[element]
+    }
+    const staff = (await usersDb.get(element)) as unknown as UserType | null;
+    if (staff) {
+      staffsDir[element] = staff;
+    }
+    return staff
+  })
+  const staffs = await Promise.all(unresolvedpromises)
+  return {staffs, staffsDir}
+}
+  

@@ -1,7 +1,6 @@
 import adminRoute from "helpers/routes/adminRoute";
-import { getAllEvents } from "server/pages";
+import { getAllFIles } from "server/files";
 
 export default adminRoute(async () => {
-  const data = await getAllEvents();
-  return data;
+    return await getAllFIles();
 });

@@ -15,6 +15,10 @@ export async function createFile(file: {}) {
   return res as unknown as FileType | null;
 }
 
+export async function getAllFIles() {
+  const res = await filesDB.fetch();
+  return res.items as unknown as FileType[] | null;
+}
 
 export async function createImage(file: {}) {
   const res = await imagesDB.put(file);

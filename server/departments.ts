@@ -40,3 +40,8 @@ export async function createDepartmentPage(data: any) {
   )) as unknown as DepartmentFacilityType | null;
   return facility;
 }
+
+
+export async function getAllDepartments() {
+  return (await departmentsDB.fetch()).items as unknown as DepartmentsType[] | null;
+}
