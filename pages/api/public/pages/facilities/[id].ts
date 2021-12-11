@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import { FacilityPageType } from "../../../../server/db";
-import { getFacilities } from "../../../../server/pages";
+import { FacilityPageType } from "server/db";
+import { getFacilities } from "server/pages";
 
 export default async function handler(
   req: NextApiRequest,

@@ -4,13 +4,15 @@ import { fetchData } from "helpers/fetcher";
 import UserCard from "components/Ui/UserCard";
 
 export default function Dashboard() {
-  fetchData("/api/events");
+  const { data, error } = fetchData("/api/admin/users/all");
   return (
     <>
       <div className="flex flex-wrap">
-        <div className="w-full p-3 xl:w-1/2">
-          <UserCard />
-        </div>
+      {!data && !error && <UserCard.Loading />}
+        {data &&
+          data.map((user) => (
+          <UserCard {...user} key={user.key} />
+          ))}
       </div>
     </>
   );

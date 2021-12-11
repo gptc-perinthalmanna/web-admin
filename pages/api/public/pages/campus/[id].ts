@@ -1,6 +1,5 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import {  getCampus } from "../../../../server/pages";
+import { getCampus } from "server/pages";
 
 export default async function handler(
   req: NextApiRequest,
@@ -15,6 +14,10 @@ export default async function handler(
     } else {
       return error(res);
     }
+  } else {
+    res.status(404).json({
+      error: "Method not allowed",
+    });
   }
 }
 

@@ -1,7 +1,6 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import { NotificationType } from "../../../server/db";
-import { getAllNotifications } from "../../../server/notifications";
+import { NotificationType } from "server/db";
+import { getAllNotifications } from "server/notifications";
 
 export default async function handler(
   req: NextApiRequest,

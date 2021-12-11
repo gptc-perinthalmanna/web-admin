@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getAllNews } from "../../../server/newsAndMedia";
+import { getAllNews } from "server/newsAndMedia";
 
 export default async function handler(
     req: NextApiRequest,

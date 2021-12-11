@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import * as yup from "yup";
-import { UserType } from "../../../../server/db";
-import { updateAvatarUser } from "../../../../server/users";
-import { validation } from "../../../../helpers/validation";
+import { UserType } from "server/db";
+import { updateAvatarUser } from "server/users";
+import { validation } from "helpers/validation";
 
 const userValidationSchema: yup.SchemaOf<{}> = yup.object().shape({
   key: yup.string().required(),

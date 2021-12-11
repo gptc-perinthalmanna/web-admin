@@ -1,7 +1,7 @@
 import formidable from "formidable";
 import { NextApiRequest, NextApiResponse } from "next";
-import { ImageType } from "../../../server/db";
-import { createImage } from "../../../server/files";
+import { ImageType } from "server/db";
+import { createImage } from "server/files";
 
 export const config = {
   api: {

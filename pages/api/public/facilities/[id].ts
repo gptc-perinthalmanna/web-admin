@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getDeptFacilites } from "../../../server/facilities";
+import { getDeptFacilites } from "server/facilities";
 
 export default async function handler(
     req: NextApiRequest,

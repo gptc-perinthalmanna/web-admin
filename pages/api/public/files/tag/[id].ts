@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getFiles } from "../../../../server/files";
+import { getFiles } from "server/files";
 
 export default async function handler(
     req: NextApiRequest,

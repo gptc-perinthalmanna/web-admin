@@ -1,8 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import * as yup from "yup";
-import { DepartmentFacilityType } from "../../../server/db";
-import { createDeptFacility } from "../../../server/facilities";
+import { DepartmentFacilityType } from "server/db";
+import { createDeptFacility } from "server/facilities";
 import { v4 as uuidv4 } from "uuid";
 
 // helper

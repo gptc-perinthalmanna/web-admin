@@ -1,12 +1,11 @@
 import adminRoute from "helpers/routes/adminRoute";
 import * as yup from "yup";
-import { v4 as uuidv4 } from "uuid";
-import { CampusPageType } from "../../../../server/db";
-import { createPage } from "../../../../server/pages";
-import { validation } from "../../../../helpers/validation";
+import { CampusPageType } from "server/db";
+import { createPage } from "server/pages";
+import { validation } from "helpers/validation";
 
 const userValidationSchema: yup.SchemaOf<{}> = yup.object().shape({
-  key: yup.string().default(function () {return uuidv4();}),
+  key: yup.string().required(),
   title: yup.string().min(3).required(),
   about: yup.string().min(40).required(),
   cover: yup.string().url().required(),
