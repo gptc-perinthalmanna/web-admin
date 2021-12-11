@@ -1,16 +1,16 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import * as yup from "yup";
-import { EventType } from "../../../../server/db";
-import { validation } from "../../../../helpers/validation";
-import { createEvent } from "../../../../server/pages";
+import { EventType } from "server/db";
+import { validation } from "helpers/validation";
+import { createEvent } from "server/pages";
 
 const userValidationSchema: yup.SchemaOf<{}> = yup.object().shape({
   key: yup.string().default(function () {
     return new Date().getTime().toString();
   }),
   title: yup.string().min(3).required(),
-  subtitle: yup.string().min(40),
+  subtitle: yup.string().min(10),
   tags: yup.array().of(yup.string()).min(1).required(),
   image: yup.string().url().required(),
   date: yup.string().required(),

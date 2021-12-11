@@ -1,6 +1,8 @@
 import Image from "next/image";
 import React from "react";
 
+import ClickAndEditBtn from "components/Ui/ClickAndEditBtn";
+
 function EventItem({ title, subtitle, date, image, tags, onEdit, onDelete }) {
   return (
     <div className="w-full p-3 xl:w-1/2">
@@ -13,9 +15,9 @@ function EventItem({ title, subtitle, date, image, tags, onEdit, onDelete }) {
             <h3 className="text-xl font-bold">{title}</h3>
            {date && <h3 className="font-bold">{date}</h3>}
           </div>
-        {subtitle &&  <div className="flex-grow">
-            <p className="text-sm">{subtitle}</p>
-          </div>}
+          <div className="flex-grow">
+          {subtitle && <p className="text-sm">{subtitle}</p>}
+          </div>
           <div className="flex">
             <div className="flex flex-wrap flex-grow">
               {tags?.map((tag, index) => (
@@ -28,18 +30,7 @@ function EventItem({ title, subtitle, date, image, tags, onEdit, onDelete }) {
               ))}
             </div>
             <div className="flex-shrink-0">
-              <a
-                onClick={onEdit}
-                className="pr-1 mr-1 border-r-2 border-gray-500 cursor-pointer hover:text-blue-700 "
-              >
-                Edit
-              </a>
-              <a
-                onClick={onDelete}
-                className="mr-2 cursor-pointer hover:text-red-700 "
-              >
-                Delete
-              </a>
+            <ClickAndEditBtn onEdit={onEdit} onDelete={onDelete} />
             </div>
           </div>
         </div>

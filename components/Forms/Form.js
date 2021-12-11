@@ -1,4 +1,6 @@
 import React from "react";
+import Image from "next/image";
+
 export default function Form({ children, ...props }) {
   return (
     <>
@@ -14,6 +16,7 @@ Form.Button = Button;
 Form.TextInput = TextInput;
 Form.TextArea = TextArea;
 Form.Section = FormSection;
+Form.Image = UploadImage;
 
 function FormTitle({ title, children }) {
   return (
@@ -41,7 +44,7 @@ function TextInput({ size, label, ...props }) {
   const sizeClass =
     size === "1/2"
       ? "w-full lg:w-1/2"
-      : props.size === "1/3"
+      : size === "1/3"
       ? "w-full lg:w-1/3"
       : "w-full";
 
@@ -86,6 +89,73 @@ function FormSection({ children, title }) {
         {title}
       </h6>
       <div className="flex flex-wrap">{children}</div>
+    </div>
+  );
+}
+
+function UploadImage({ setUrl = (object) => console.log(object), setKey = (object) => console.log(object) }) {
+  const [file, setFile] = React.useState(null);
+  const [createObjectURL, setCreateObjectURL] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
+
+  const uploadToClient = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const i = event.target.files[0];
+      setFile(i);
+      setCreateObjectURL(URL.createObjectURL(i));
+      setLoading(true);
+      uploadToServer()
+    }
+  };
+
+  const uploadToServer = async () => {
+    const body = new FormData();
+    if (!file) {
+      setLoading(false);
+      return
+    };
+    body.append("file", file);
+    const response = await fetch("/api/public/media/upload", {
+      method: "POST",
+      body,
+    });
+    setLoading(false);
+    const res = await response.json();
+    setUrl(res.url);
+    setKey(res.key);
+  };
+
+  return (
+    <div className="relative w-full px-4 mb-3">
+      <label className="block mb-2 text-xs font-bold uppercase text-blueGray-600">
+        UploadImage
+      </label>
+      <div className="flex flex-col ">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          {createObjectURL && (
+          <div className="relative w-40 h-40 mb-3 overflow-hidden rounded-md ">
+            <Image
+              src={createObjectURL}
+              layout="fill"
+              objectFit="cover"
+              alt="sample"
+            />
+          </div>
+                  )}
+       <div className="flex items-center">
+         <input
+        onChange={uploadToClient}
+          type="file"
+          className="px-3 py-3 mr-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow w-96 placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
+        >
+          {/* <i className="mr-2 fas fa-file-image" /> Choose Image */}
+        </input>
+    {loading &&  <p className="mr-3 text-green-600 animate-pulse ">Uploading to server...</p>}
+     {!loading && <p className="mr-3 text-green-600 "><i className="fas fa-check" /></p>}
+         
+         </div> 
+      </div>
+
     </div>
   );
 }
