@@ -3,7 +3,8 @@ import { sessionOptions } from "lib/session";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default function <T>(
-  callBack: (req: NextApiRequest, res: NextApiResponse<T>) => Promise<{}>
+  callBack: (req: NextApiRequest, res: NextApiResponse<T>) => Promise<{}>,
+  roles: string[] = ["admin"]
 ) {
   async function eventsRoute(
     req: NextApiRequest,
@@ -16,9 +17,9 @@ export default function <T>(
       return;
     }
 
-    if (user.role !== "admin") {
+    if (roles.length > 0 && !roles.includes(user.role)) {
       res
-        .status(403)
+        .status(403) 
         .json({ error: "You are not authorized to access this page" });
       return;
     }
