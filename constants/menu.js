@@ -91,7 +91,7 @@ export const menu =  [
       {
         title: "Logout",
         icon: "fa-sign-out-alt",
-        link: "/logout",
+        link: "/auth/logout",
       },
     ],
   },

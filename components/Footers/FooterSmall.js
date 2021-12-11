@@ -17,7 +17,7 @@ export default function FooterSmall(props) {
               <div className="py-1 text-sm font-semibold text-center text-blueGray-500 md:text-left">
                 Copyright © {new Date().getFullYear()}{" "}
                 <a
-                  href="https://www.creative-tim.com?ref=nnjs-footer-small"
+                  href="https://github.com/amjed-ali-k"
                   className="py-1 text-sm font-semibold text-white hover:text-blueGray-300"
                 >
                 Amjed Ali 
@@ -25,7 +25,7 @@ export default function FooterSmall(props) {
               </div>
             </div>
             <div className="w-full px-4 md:w-8/12">
-              <ul className="flex flex-wrap justify-center list-none md:justify-end">
+              {/* <ul className="flex flex-wrap justify-center list-none md:justify-end">
               
                 <li>
                   <a
@@ -51,7 +51,7 @@ export default function FooterSmall(props) {
                     MIT License
                   </a>
                 </li>
-              </ul>
+              </ul> */}
             </div>
           </div>
         </div>

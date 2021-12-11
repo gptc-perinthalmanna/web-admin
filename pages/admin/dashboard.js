@@ -1,7 +1,7 @@
 import React from "react";
 
 // components
-
+import useUser from 'lib/useUser'
 import CardMenu from "components/Cards/CardMenu.js";
 
 // layout for page
@@ -10,6 +10,8 @@ import Admin from "layouts/Admin.js";
 import { menu } from "constants/menu";
 
 export default function Dashboard() {
+  const { user } = useUser()
+  console.log(user)
   return (
     <>
     <h2 className="text-2xl font-bold text-white">Dashboard</h2>
@@ -27,7 +29,6 @@ export default function Dashboard() {
             ))
           ))
         }
-     
       </div>
     </>
   );
