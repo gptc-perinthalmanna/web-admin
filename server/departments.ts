@@ -15,7 +15,6 @@ export async function getDepartments(key: string) {
   if (!department || department == null) {
     return null;
   }
-
   let staffs: UserType[] = [];
   department.staffs_ids?.forEach(async (element) => {
     const staff = (await usersDb.get(element)) as unknown as UserType | null;

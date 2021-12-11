@@ -36,7 +36,7 @@ function FacilityItem({
             ))}
           </div>
           <div className="flex-shrink-0 mt-auto">
-            <ClickAndEditBtn onEdit={onEdit} onDelete={onDelete} />
+            <ClickAndEditBtn onEdit={onEdit} />
           </div>
         </div>
       </div>
@@ -45,3 +45,24 @@ function FacilityItem({
 }
 
 export default FacilityItem;
+
+
+
+function Loading() {
+  return (
+    <>
+    <div className="w-full p-3 xl:w-1/2">
+    <div className="flex items-center justify-center h-40 my-2 overflow-hidden text-xl ease-in-out bg-gray-300 border-transparent rounded-lg shadow-lg animate-pulse">
+      {/* <p><i className="mr-3 fas fa-spinner animate-spin" />Loading...</p> */}
+      </div>
+    </div><div className="w-full p-3 xl:w-1/2">
+    <div className="flex items-center justify-center h-40 my-2 overflow-hidden text-xl ease-in-out bg-gray-300 border-transparent rounded-lg shadow-lg animate-pulse">
+      {/* <p><i className="mr-3 fas fa-spinner animate-spin" />Loading...</p> */}
+      </div>
+    </div>
+    </>
+ 
+  )
+}
+
+FacilityItem.Loading = Loading;

@@ -12,9 +12,7 @@ export default function Dashboard() {
       <PageTitle>Campus</PageTitle>
       <div className="flex flex-wrap">
         
-          {!data && !error && <div className="px-8 pt-6 pb-8 mb-4 bg-white rounded shadow-md">
-            loading...
-            </div>}
+      {!data && !error && <FacilityItem.Loading />}
           {data &&
             data.map((facility) => (
               <FacilityItem
