@@ -1,10 +1,14 @@
 import React from "react";
 import Link from "next/link";
+
 import Menu from "./Menu";
 import {menu} from "constants/menu";
+import useUser from "lib/useUser";
 
 export default function Sidebar() {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
+  const { user } = useUser()
+
   return (
     <>
       <nav className="relative z-10 flex flex-wrap items-center justify-between px-6 py-4 bg-white shadow-xl md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden md:w-64">
@@ -60,15 +64,20 @@ export default function Sidebar() {
               </div>
             </div>
             {menu.map((item, index) => (
-            <Menu key={index} item={item}>
-              {item.items.map((subItem, subIndex) => (
+            <Menu key={index} title={item.title} item={item}>
+              {item.items.map((subItem, subIndex) => {
+                const found = subItem?.roles?.some(r=> user?.role.includes(r))
+                if( user && subItem.roles && !found ){
+                  return null
+                }
+                return(
               <Menu.Item
                 title={subItem.title}
                 key={subIndex}
                 link={subItem.link}
                 icon={subItem.icon}
               />
-              ))}
+              )})}
             </Menu>
             ))}
           </div>

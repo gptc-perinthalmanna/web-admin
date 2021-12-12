@@ -38,6 +38,30 @@ export const menu =  [
     title: "Pages",
     items: [
       {
+        title: "Edit Dept Page",
+        icon: "fa-building",
+        link: "/admin/departments/edit/civil-engineering",
+        roles: ["civil-dept-charge"],
+      },
+      {
+        title: "Edit Dept Page",
+        icon: "fa-building",
+        link: "/admin/departments/edit/mechanical-engineering",
+        roles: ["mechanical-dept-charge"],
+      },
+      {
+        title: "Edit Dept Page",
+        icon: "fa-building",
+        link: "/admin/departments/edit/electronics-engineering",
+        roles: ["electronics-dept-charge"],
+      },
+      {
+        title: "Edit Dept Page",
+        icon: "fa-building",
+        link: "/admin/departments/edit/electrical-and-electronics-engineering",
+        roles: ["electrical-dept-charge"],
+      }, 
+      {
         title: "Facilities",
         icon: "fa-building",
         link: "/admin/facilities",
@@ -100,6 +124,7 @@ export const menu =  [
         title: "My profile",
         icon: "fa-user",
         link: "/admin/users/me",
+        roles: ["admin", "staff"],
       },
       {
         title: "Logout",

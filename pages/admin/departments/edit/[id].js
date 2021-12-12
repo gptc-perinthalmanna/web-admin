@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import {toast } from 'tailwind-toast'
+import { toast } from "tailwind-toast";
 
 import Admin from "layouts/Admin.js";
 import Form from "components/Forms/Form";
@@ -11,14 +11,24 @@ import { fetchData } from "helpers/fetcher";
 import DynamicUserCard from "components/Ui/DynamicUserCard";
 import Modal from "components/Ui/Modal";
 import UserSelect from "components/Forms/UserSelect";
+import useUser from "lib/useUser";
+import { deptPermissionsInverted } from "constants/roles";
 
 export default function EditDetails() {
+  const router = useRouter();
+  const { id } = router.query;
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (!user) return;
+    const isAdmin = user.role.includes("admin");
+    const hasPermission = user.role.includes(deptPermissionsInverted[id]);
+    if (!hasPermission && !isAdmin) router.push("/admin/dashboard");
+  }, [user]);
+
   const [staffIds, setStaffIds] = useState(() => []);
   const [showModal, setShowModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(() => null);
-
-  const router = useRouter();
-  const { id } = router.query;
   const { data } = fetchData("/api/public/departments/" + id);
 
   useEffect(() => {
@@ -50,7 +60,12 @@ export default function EditDetails() {
           staffs_ids: staffIds,
         })
         .then((res) => {
-          toast().success('Great!', 'Saved the details!').with({color: 'bg-blue-800'}).from('bottom', 'end').as('pill').show() //show pill shaped toast
+          toast()
+            .success("Great!", "Saved the details!")
+            .with({ color: "bg-blue-800" })
+            .from("bottom", "end")
+            .as("pill")
+            .show(); //show pill shaped toast
           router.push("/admin/departments");
         })
         .catch((err) => {

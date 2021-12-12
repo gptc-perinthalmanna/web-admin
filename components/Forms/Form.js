@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Select from 'react-select';
 
 export default function Form({ children, ...props }) {
   return (
@@ -20,6 +21,7 @@ Form.TextArea = TextArea;
 Form.Section = FormSection;
 Form.Image = UploadImage;
 Form.DatePicker = DateSelect;
+Form.TagsInput = TagsInput;
 Form.Error = Error;
 
 function FormTitle({ title, children }) {
@@ -200,3 +202,13 @@ function Error({children}) {
     </div>
   );
 }
+
+
+function TagsInput({label, options, ...props}) {
+  return (<div className="relative w-full px-4 mb-3">
+  <label className="block mb-2 text-xs font-bold uppercase text-blueGray-600">
+    {label}
+  </label>
+  <Select options={options} {...props} isMulti />
+  </div>
+  );}
