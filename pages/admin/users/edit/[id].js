@@ -41,7 +41,31 @@ export default function EditDetails() {
       instagram: Yup.string().url(),
       whatsapp: Yup.string(),
     }),
-    onSubmit: (values) => onSubmit(values, data),
+    onSubmit: (values) => {
+      axios
+        .post("/api/admin/users/edit/", {
+          ...values,
+          socialLinks: {
+            facebook: values?.facebook,
+            linkedin: values?.linkedin,
+            instagram: values?.instagram,
+            whatsapp: values?.whatsapp,
+          },
+          key: data.key,
+        })
+        .then((res) => {
+          toast()
+            .success("Great!", "Updated the details!")
+            .with({ color: "bg-blue-800" })
+            .from("bottom", "end")
+            .as("pill")
+            .show(); //show pill shaped toast
+          router.push("/admin/users/all");
+        })
+        .catch((err) => {
+          alert(err.response.data.message);
+        });
+    },
   });
 
   return (
@@ -57,33 +81,8 @@ export default function EditDetails() {
 
 EditDetails.layout = Admin;
 
-const onSubmit = (values, data) => {
-  axios
-    .post("/api/admin/users/edit/", {
-      ...values,
-      socialLinks: {
-        facebook: values?.facebook,
-        linkedin: values?.linkedin,
-        instagram: values?.instagram,
-        whatsapp: values?.whatsapp,
-      },
-      key: data.key,
-    })
-    .then((res) => {
-      toast()
-        .success("Great!", "Updated the details!")
-        .with({ color: "bg-blue-800" })
-        .from("bottom", "end")
-        .as("pill")
-        .show(); //show pill shaped toast
-      router.push("/admin/users");
-    })
-    .catch((err) => {
-      alert(err.response.data.message);
-    });
-};
 
-const EditForm = (formik) => (
+const EditForm = ({formik}) => (
   <Form onSubmit={formik.handleSubmit}>
     <Form.Title title="Edit User Profile">
       <Form.Button />
