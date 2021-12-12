@@ -9,7 +9,7 @@ export async function getAllNotifications() {
   let nots = res.items as unknown as NotificationType[] | null;
   if (!nots) return null;
 
-  nots.map(async (not) => {
+  const _nots = nots.map(async (not) => {
     not.expired = (not.expiryDate) < Date.now();
     if (not.expired) {
       await notificationsDB.update({ expired: true }, not.key.toString());
@@ -17,7 +17,7 @@ export async function getAllNotifications() {
     return not;
   });
 
-  return nots;
+  return Promise.all(_nots);
 }
 
 export async function createNotificiations(data: {}) {

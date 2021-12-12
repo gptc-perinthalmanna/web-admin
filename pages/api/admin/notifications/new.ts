@@ -1,9 +1,9 @@
 import adminRoute from "helpers/routes/adminRoute";
 import * as yup from "yup";
 
-import { NotificationType } from "../../../../server/db";
-import { createNotificiations } from "../../../../server/notifications";
-import { validation } from "../../../../helpers/validation";
+import { NotificationType } from "server/db";
+import { createNotificiations } from "server/notifications";
+import { validation } from "helpers/validation";
 
 const userValidationSchema: yup.SchemaOf<{}> = yup.object().shape({
   key: yup.string().default(() => (2e12 - new Date().getTime()).toString()),

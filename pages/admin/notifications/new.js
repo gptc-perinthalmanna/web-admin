@@ -17,7 +17,7 @@ export default function EditDetails() {
   const formik = useFormik({
     initialValues: {
         title: "",
-        subtitle: "",
+        link: "",
         date: "",
     },
     validationSchema: Yup.object({
@@ -29,7 +29,7 @@ export default function EditDetails() {
     }),
     onSubmit: (values) => {
       axios
-        .post("/api/admin/events/new/", {
+        .post("/api/admin/notifications/new/", {
           ...values, image, tags
         })
         .then((res) => {
@@ -39,7 +39,7 @@ export default function EditDetails() {
             .from("bottom", "end")
             .as("pill")
             .show(); //show pill shaped toast
-          router.push("/admin/events");
+          router.push("/admin/notifications");
         })
         .catch((err) => {
           alert(err.response.data.message);

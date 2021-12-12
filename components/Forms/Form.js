@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import DatePicker from "react-datepicker";
 
 export default function Form({ children, ...props }) {
   return (
@@ -17,6 +18,7 @@ Form.TextInput = TextInput;
 Form.TextArea = TextArea;
 Form.Section = FormSection;
 Form.Image = UploadImage;
+Form.DatePicker = DateSelect;
 
 function FormTitle({ title, children }) {
   return (
@@ -41,12 +43,20 @@ function Button({ title = "Save", ...props }) {
 }
 
 function TextInput({ size, label, ...props }) {
-  const sizeClass =
-    size === "1/2"
-      ? "w-full lg:w-1/2"
-      : size === "1/3"
-      ? "w-full lg:w-1/3"
-      : "w-full";
+  let sizeClass;
+  switch (size) {
+    case "1/2":
+      sizeClass = "w-full lg:w-1/2";
+      break;
+    case "1/3":
+      sizeClass = "w-full lg:w-1/3";
+      break;
+    case "1/4":
+      sizeClass = "w-full lg:w-1/4";
+      break;
+    default:
+      sizeClass = "w-full";
+  }
 
   return (
     <div className={" px-4 " + sizeClass}>
@@ -93,7 +103,10 @@ function FormSection({ children, title }) {
   );
 }
 
-function UploadImage({ setUrl = (object) => console.log(object), setKey = (object) => console.log(object) }) {
+function UploadImage({
+  setUrl = (object) => console.log(object),
+  setKey = (object) => console.log(object),
+}) {
   const [file, setFile] = React.useState(null);
   const [createObjectURL, setCreateObjectURL] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
@@ -104,7 +117,7 @@ function UploadImage({ setUrl = (object) => console.log(object), setKey = (objec
       setFile(i);
       setCreateObjectURL(URL.createObjectURL(i));
       setLoading(true);
-      uploadToServer()
+      uploadToServer();
     }
   };
 
@@ -112,8 +125,8 @@ function UploadImage({ setUrl = (object) => console.log(object), setKey = (objec
     const body = new FormData();
     if (!file) {
       setLoading(false);
-      return
-    };
+      return;
+    }
     body.append("file", file);
     const response = await fetch("/api/public/media/upload", {
       method: "POST",
@@ -131,8 +144,8 @@ function UploadImage({ setUrl = (object) => console.log(object), setKey = (objec
         UploadImage
       </label>
       <div className="flex flex-col ">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          {createObjectURL && (
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        {createObjectURL && (
           <div className="relative w-40 h-40 mb-3 overflow-hidden rounded-md ">
             <Image
               src={createObjectURL}
@@ -141,21 +154,45 @@ function UploadImage({ setUrl = (object) => console.log(object), setKey = (objec
               alt="sample"
             />
           </div>
-                  )}
-       <div className="flex items-center">
-         <input
-        onChange={uploadToClient}
-          type="file"
-          className="px-3 py-3 mr-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow w-96 placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
-        >
-          {/* <i className="mr-2 fas fa-file-image" /> Choose Image */}
-        </input>
-    {loading &&  <p className="mr-3 text-green-600 animate-pulse ">Uploading to server...</p>}
-     {!loading && <p className="mr-3 text-green-600 "><i className="fas fa-check" /></p>}
-         
-         </div> 
+        )}
+        <div className="flex items-center">
+          <input
+            onChange={uploadToClient}
+            type="file"
+            className="px-3 py-3 mr-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow w-96 placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
+          >
+            {/* <i className="mr-2 fas fa-file-image" /> Choose Image */}
+          </input>
+          {loading && (
+            <p className="mr-3 text-green-600 animate-pulse ">
+              Uploading to server...
+            </p>
+          )}
+          {!loading && (
+            <p className="mr-3 text-green-600 ">
+              <i className="fas fa-check" />
+            </p>
+          )}
+        </div>
       </div>
+    </div>
+  );
+}
 
+function DateSelect({ label, setDate = (object) => console.log(object) }) {
+  const [startDate, setStartDate] = React.useState(new Date());
+  return (
+    <div className="relative w-full px-4 mb-3">
+      <label className="block mb-2 text-xs font-bold uppercase text-blueGray-600">
+        {label}
+      </label>
+      <DatePicker
+        selected={startDate}
+        onChange={(date) => {
+          setStartDate(date);
+          setDate(date);
+        }}
+      />
     </div>
   );
 }
