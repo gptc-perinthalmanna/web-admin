@@ -11,7 +11,6 @@ import { menu } from "constants/menu";
 
 export default function Dashboard() {
   const { user } = useUser()
-  console.log(user)
   return (
     <>
     <h2 className="text-2xl font-bold text-white">Dashboard</h2>

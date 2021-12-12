@@ -8,11 +8,17 @@ import { toast } from "tailwind-toast";
 import Admin from "layouts/Admin.js";
 import Form from "components/Forms/Form";
 import { fetchData } from "helpers/fetcher";
+// import useUser from "lib/useUser";
 
 export default function EditDetails() {
   const router = useRouter();
+  // const {user} = useUser();
+
+  // const [role, setRole] = useState(null);
+
   const { id } = router.query;
   const { data } = fetchData("/api/admin/users/" + id);
+
   const formik = useFormik({
     initialValues: {
       name: data?.name,
