@@ -7,6 +7,7 @@ import { toast } from "tailwind-toast";
 
 import Admin from "layouts/Admin.js";
 import Form from "components/Forms/Form";
+import { notificationTags } from 'constants/roles'
 
 export default function EditDetails() {
   const router = useRouter();
@@ -14,7 +15,7 @@ export default function EditDetails() {
   const [expiryDate, setExpiryDate] = useState(
     () => new Date(new Date().getTime() + 5 * 24 * 60 * 60 * 1000)
   );
-
+  
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -27,15 +28,10 @@ export default function EditDetails() {
       link: Yup.string().url(),
     }),
     onSubmit: (values) => {
-      console.log({
-        ...values,
-        tags,
-        expiryDate,
-      });
       axios
         .post("/api/admin/notifications/new/", {
           ...values,
-          tags,
+          tags : tags.map(tag => tag.value),
           expiryDate: expiryDate.getTime(),
         })
         .then((res) => {
@@ -83,12 +79,12 @@ export default function EditDetails() {
                 onChange={(date) => setExpiryDate(date)}
                 minDate={new Date()}
               />
-              <Form.TextInput
+            <Form.TagsInput
                 label="Tags"
                 size="1/2"
-                onChange={(e) => {
-                  setTags([e.target.value]);
-                }}
+                defaultValue={tags}
+                onChange={(t) => setTags(t)}
+                options={notificationTags.map((tag) => ({label: tag.name, value: tag.name}))}
               />
             </Form.Section>
           </Form>

@@ -8,6 +8,7 @@ import { toast } from "tailwind-toast";
 import { fetchData } from "helpers/fetcher";
 import Admin from "layouts/Admin.js";
 import Form from "components/Forms/Form";
+import { notificationTags } from 'constants/roles'
 
 export default function EditDetails() {
   const router = useRouter();
@@ -21,7 +22,7 @@ export default function EditDetails() {
   useEffect(() => {
     if (data) {
       setExpiryDate(new Date(data.expiryDate));
-      setTags(data.tags);
+      setTags(data.tags.map((tag) => ({label:tag, value:tag})));
     }
   }, [data]);
 
@@ -38,17 +39,11 @@ export default function EditDetails() {
       link: Yup.string().url(),
     }),
     onSubmit: (values) => {
-      console.log({
-        ...data,
-        ...values,
-        tags,
-        expiryDate,
-      });
       axios
         .post("/api/admin/notifications/edit/", {
           ...data,
           ...values,
-          tags,
+          tags : tags.map(tag => tag.value),
           expiryDate: expiryDate.getTime(),
         })
         .then((res) => {
@@ -96,13 +91,11 @@ export default function EditDetails() {
                 onChange={(date) => setExpiryDate(date)}
                 minDate={new Date()}
               />
-              <Form.TextInput
+               <Form.TagsInput
                 label="Tags"
-                size="1/2"
-                value={tags?.join()}
-                onChange={(e) => {
-                  setTags([e.target.value]);
-                }}
+                defaultValue={tags}
+                onChange={(t) => setTags(t)}
+                options={notificationTags.map((tag) => ({label: tag.name, value: tag.name}))}
               />
             </Form.Section>
           </Form>

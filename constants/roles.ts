@@ -57,3 +57,12 @@ export const eventsTags = [
     { name: "boomithraseena-club" },
     { name: "staff-club" },
   ];
+
+ export const notificationTags = [
+    { name: "electronics-dept" },
+    { name: "electrical-dept" },
+    { name: "civil-dept" },
+    { name: "mechanical-dept" },
+    { name: "general-dept" },
+    { name: "office-section" },
+  ];

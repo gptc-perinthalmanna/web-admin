@@ -204,7 +204,7 @@ function Error({ children }) {
 
 function TagsInput({ label, options, ...props }) {
   return (
-    <div className="relative w-1/3 px-4 mb-3">
+    <div className="relative w-full px-4 mb-3">
       <label className="block mb-2 text-xs font-bold uppercase text-blueGray-600">
         {label}
       </label>
