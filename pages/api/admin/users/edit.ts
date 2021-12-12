@@ -37,10 +37,12 @@ export default adminRoute(async (req) => {
   }
   const user = await getUser(data.key);
   let role = user.role;
+  let phone = user.phone;
   if (req.session.user.role.includes("admin")) {
     role = data.role;
+    phone = data.phone;
   }
-  await createUser({ ...user, ...data, role });
+  await createUser({ ...user, ...data, role, phone });
   return {
     message: "success",
     data,

@@ -99,7 +99,7 @@ export const menu =  [
       {
         title: "My profile",
         icon: "fa-user",
-        link: "/profile",
+        link: "/admin/users/me",
       },
       {
         title: "Logout",
