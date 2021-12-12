@@ -20,6 +20,8 @@ export const imagesDB = deta.Base("media_images");
 
 export const otherDB = deta.Base("other_details");
 
+export const deletedDB = deta.Base("deleted_records");
+
 // Types Definitions
 
 export interface NewsMediaType {

@@ -10,7 +10,6 @@ import { getUserbyUsername } from "server/users";
 export default withIronSessionApiRoute(loginRoute, sessionOptions);
 
 async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
-  console.log(req.body)
   const { username, password } = await req.body;
   try {
     const userDB = await getUserbyUsername(username);

@@ -1,5 +1,26 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+const events = [
+  {name: "electronics-dept"},
+  {name: "electrical-dept"},
+  {name: "civil-dept"},
+  {name: "mechanical-dept"},
+  {name: "general-dept"},
+  {name: "office-section"},
+  {name: "nss"},
+  {name: "placement-cell"},
+  {name: "boomithraseena-club"},
+]
+
+const notifications = [
+  {name: "electronics-dept"},
+  {name: "electrical-dept"},
+  {name: "civil-dept"},
+  {name: "mechanical-dept"},
+  {name: "general-dept"},
+  {name: "office-section"},
+  
+]
 
 
 export default async function handler(
@@ -7,19 +28,8 @@ export default async function handler(
   res: NextApiResponse<{[key:string]: {name: string}[]} | { error: string }>
 ) {
   if (req.method === "GET") {
-    const events = [
-        {name: "electronics-dept"},
-        {name: "electrical-dept"},
-        {name: "civil-dept"},
-        {name: "mechanical-dept"},
-        {name: "general-dept"},
-        {name: "office-section"},
-        {name: "nss"},
-        {name: "placement-cell"},
-        {name: "boomithraseena-club"},
-    ]
     if (events) {
-      res.status(200).json({events});
+      res.status(200).json({events, notifications});
     } else {
       return error(res);
     }

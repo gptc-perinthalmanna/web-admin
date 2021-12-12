@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Form({ children, ...props }) {
   return (
@@ -19,6 +20,7 @@ Form.TextArea = TextArea;
 Form.Section = FormSection;
 Form.Image = UploadImage;
 Form.DatePicker = DateSelect;
+Form.Error = Error;
 
 function FormTitle({ title, children }) {
   return (
@@ -179,20 +181,22 @@ function UploadImage({
   );
 }
 
-function DateSelect({ label, setDate = (object) => console.log(object) }) {
-  const [startDate, setStartDate] = React.useState(new Date());
+function DateSelect({ label, startDate, onChange, ...props }) {
   return (
     <div className="relative w-full px-4 mb-3">
       <label className="block mb-2 text-xs font-bold uppercase text-blueGray-600">
         {label}
       </label>
-      <DatePicker
-        selected={startDate}
-        onChange={(date) => {
-          setStartDate(date);
-          setDate(date);
-        }}
-      />
+      <DatePicker selected={startDate} onChange={onChange} {...props} />
+    </div>
+  );
+}
+
+
+function Error({children}) {
+  return (
+    <div className="flex items-center justify-center px-4 mb-2 text-xs text-center text-red-600 capitalize">
+     <i className="mr-1 fas fa-exclamation-circle" /> {children}
     </div>
   );
 }
