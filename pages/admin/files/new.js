@@ -7,7 +7,7 @@ import { toast } from "tailwind-toast";
 
 import Admin from "layouts/Admin.js";
 import Form from "components/Forms/Form";
-
+import { filesTags } from 'constants/roles'
 
 export default function EditDetails() {
   const router = useRouter();
@@ -29,7 +29,7 @@ export default function EditDetails() {
     onSubmit: (values) => {
       axios
         .post("/api/admin/files/new/", {
-          ...values, tags
+          ...values, tags : tags.map(tag => tag.value),
         })
         .then((res) => {
           toast()
@@ -68,10 +68,11 @@ export default function EditDetails() {
                 {...formik.getFieldProps("url")}
                 label="File URL"
               />
-               <Form.TextInput
+                  <Form.TagsInput
                 label="Tags"
                 size="1/2"
-                onChange={(e) => {setTags([e.target.value])}}
+                onChange={(t) => setTags(t)}
+                options={filesTags.map((tag) => ({label: tag.name, value: tag.name}))}
               />
             </Form.Section>
           </Form>

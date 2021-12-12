@@ -14,7 +14,7 @@ function FilesItem({ title, description, url, tags, onEdit, onDelete }) {
           <p className="text-sm">{description}</p>
         </div>
         <div className="flex-grow-0">
-          <DecoratedText title="File Link" text={url} className="line-clamp-1" />
+          <DecoratedText title="File Link" text={url} className="overflow-hidden truncate" />
         </div>
         <div className="flex">
           <div className="flex flex-wrap flex-grow text-xs">

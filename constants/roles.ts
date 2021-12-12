@@ -66,3 +66,13 @@ export const eventsTags = [
     { name: "general-dept" },
     { name: "office-section" },
   ];
+
+  export const filesTags = [
+    { name: "design-files" },
+    { name: "previous-question-paper" },
+    { name: "govt-order" },
+    { name: "downloads" },
+    { name: "extension-of-approval" },
+    { name: "academic-calendar" },
+    { name: "college-magazine" },
+  ];
