@@ -18,7 +18,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
       throw new Error("Invalid password");
     }
 
-    const user = { isLoggedIn: true, ...userDB, password: "" } as User;
+    const user = { isLoggedIn: true, ...userDB, password: "" } as unknown as User;
     req.session.user = user;
     await req.session.save();
     res.json(user);
