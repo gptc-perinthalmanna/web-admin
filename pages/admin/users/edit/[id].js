@@ -8,13 +8,18 @@ import { toast } from "tailwind-toast";
 import Admin from "layouts/Admin.js";
 import Form from "components/Forms/Form";
 import { fetchData } from "helpers/fetcher";
-// import useUser from "lib/useUser";
+import useUser from "lib/useUser";
 
 export default function EditDetails() {
   const router = useRouter();
-  // const {user} = useUser();
+  const { user } = useUser();
 
-  // const [role, setRole] = useState(null);
+  useEffect(() => {
+    if (!user) return;
+    if (user.key !== router.query.id && !user.role.includes("admin")) {
+      router.push("/admin/dashboard");
+    }
+  }, [user]);
 
   const { id } = router.query;
   const { data } = fetchData("/api/admin/users/" + id);
@@ -87,8 +92,7 @@ export default function EditDetails() {
 
 EditDetails.layout = Admin;
 
-
-const EditForm = ({formik}) => (
+const EditForm = ({ formik }) => (
   <Form onSubmit={formik.handleSubmit}>
     <Form.Title title="Edit User Profile">
       <Form.Button />

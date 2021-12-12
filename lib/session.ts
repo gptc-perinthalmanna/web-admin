@@ -3,7 +3,7 @@ import type { IronSessionOptions } from 'iron-session'
 import type { User } from 'pages/api/user'
 
 export const sessionOptions: IronSessionOptions = {
-  password: process.env.SECRET_COOKIE_PASSWORD as string,
+  password: process.env.SECRET_COOKIE_PASSWORD,
   cookieName: 'admin-gptc',
   // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
   cookieOptions: {

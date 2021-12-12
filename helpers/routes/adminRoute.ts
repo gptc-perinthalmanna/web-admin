@@ -15,7 +15,8 @@ export default function <T>(
       res.status(401).end();
       return;
     }
-    if (roles.length > 0 && !roles.includes(user.role)) {
+    const found = roles.some(r=> user.role.includes(r))
+    if (roles.length > 0 && !found) {
       res
         .status(403) 
         .json({ error: "You are not authorized to access this page" });
@@ -27,7 +28,7 @@ export default function <T>(
     } catch (error) {
       res.status(200).json(error);
     }
-    return;
+    return null;
   }
 
   return withIronSessionApiRoute(eventsRoute, sessionOptions);
