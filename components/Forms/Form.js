@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Select from 'react-select';
+import Select from "react-select";
 
 export default function Form({ children, ...props }) {
   return (
@@ -194,21 +194,21 @@ function DateSelect({ label, startDate, onChange, ...props }) {
   );
 }
 
-
-function Error({children}) {
+function Error({ children }) {
   return (
     <div className="flex items-center justify-center px-4 mb-2 text-xs text-center text-red-600 capitalize">
-     <i className="mr-1 fas fa-exclamation-circle" /> {children}
+      <i className="mr-1 fas fa-exclamation-circle" /> {children}
     </div>
   );
 }
 
-
-function TagsInput({label, options, ...props}) {
-  return (<div className="relative w-full px-4 mb-3">
-  <label className="block mb-2 text-xs font-bold uppercase text-blueGray-600">
-    {label}
-  </label>
-  <Select options={options} {...props} isMulti />
-  </div>
-  );}
+function TagsInput({ label, options, ...props }) {
+  return (
+    <div className="relative w-1/3 px-4 mb-3">
+      <label className="block mb-2 text-xs font-bold uppercase text-blueGray-600">
+        {label}
+      </label>
+      <Select options={options} {...props} isMulti />
+    </div>
+  );
+}

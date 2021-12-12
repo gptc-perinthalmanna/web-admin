@@ -44,3 +44,16 @@ export const notificationPermissions = {
     'office-dept-charge': 'office-section',
     'workshop-dept-charge': 'workshop-section',
 }
+
+export const eventsTags = [
+    { name: "electronics-dept" },
+    { name: "electrical-dept" },
+    { name: "civil-dept" },
+    { name: "mechanical-dept" },
+    { name: "general-dept" },
+    { name: "office-section" },
+    { name: "nss" },
+    { name: "placement-cell" },
+    { name: "boomithraseena-club" },
+    { name: "staff-club" },
+  ];
