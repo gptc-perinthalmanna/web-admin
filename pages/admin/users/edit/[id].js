@@ -87,7 +87,7 @@ export default function EditDetails() {
         });
     },
   });
-console.log(data?.role?.map(role => ({label: role, value: role})))
+  
   return (
     <>
       <div className="flex flex-wrap">
