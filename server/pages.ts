@@ -69,7 +69,7 @@ export async function getAllCampus() {
   const ret = campus.map(async (_campus) => {
     let {staffs, staffsDir} = await populateStaffs(_campus.staffs_ids, _staffsDir)
     _staffsDir = staffsDir;
-    return {...campus, staffs}
+    return {..._campus, staffs}
   })
   return Promise.all(ret)
 }
