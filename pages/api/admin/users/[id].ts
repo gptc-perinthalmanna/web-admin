@@ -6,5 +6,5 @@ export default adminRoute(async (req) => {
       if (typeof id !== "string") return {
         error: "User not found",
       }
-  return await getUser(id);
+  return getUser(id);
 });

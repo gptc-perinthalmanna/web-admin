@@ -62,7 +62,7 @@ export interface UserType {
   createdAt: string;
   updatedAt: string;
   designation: string;
-  role: string;
+  role: string[];
   department: string;
   phone: string;
   address: string;

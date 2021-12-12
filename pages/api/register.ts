@@ -15,7 +15,6 @@ const userValidationSchema: yup.SchemaOf<{}> = yup.object().shape({
   email: yup.string().email().required(),
   password: yup.string().required(),
   designation: yup.string().required(),
-  role: yup.string().default(""),
   department: yup.string().required(),
   createdAt: yup.number().default(function () {
     return Date.now();
@@ -31,7 +30,7 @@ const userValidationSchema: yup.SchemaOf<{}> = yup.object().shape({
     instagram: yup.string().url(),
     whatsapp: yup.string(),
   }),
-});
+}).noUnknown();
 
 export default async function handler(
   req: NextApiRequest,
@@ -46,8 +45,8 @@ export default async function handler(
       return res.status(400).json({ error: errors });
     }
 
-    const user: UserType = { ...data } as unknown as UserType;
-    user.role = "staff";
+    const user: UserType = { ...data, role: ["staff"] } as unknown as UserType;
+    user.role = ["staff"];
     user.password = await bcrypt.hash(user.password, 10);
 
     await createUser(user);

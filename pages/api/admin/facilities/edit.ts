@@ -22,7 +22,7 @@ export default adminRoute(async (req) => {
     return { error: errors };
   }
   const page: FacilityPageType = { ...data } as unknown as FacilityPageType;
-  await createPage("facility", page);
+  await createPage(page, "facility");
   return {
     message: "success",
     data,
