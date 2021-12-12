@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Image from "next/image";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -202,13 +202,17 @@ function Error({ children }) {
   );
 }
 
-function TagsInput({ label, options, ...props }) {
+function TagsInput({ label, options, defaultValue, ...props }) {
+  const [defaultv, setDefault] = useState(null)
+  useEffect(() => {
+    setDefault(defaultValue)
+  }, [defaultValue])
   return (
     <div className="relative w-full px-4 mb-3">
       <label className="block mb-2 text-xs font-bold uppercase text-blueGray-600">
         {label}
       </label>
-      <Select options={options} {...props} isMulti />
+      <Select options={options} {...props} defaultValue={defaultv} isMulti />
     </div>
   );
 }

@@ -9,10 +9,12 @@ import Admin from "layouts/Admin.js";
 import Form from "components/Forms/Form";
 import { fetchData } from "helpers/fetcher";
 import useUser from "lib/useUser";
+import allRoles from "constants/roles"
 
 export default function EditDetails() {
   const router = useRouter();
   const { user } = useUser();
+  const [roles, setRoles] = useState([]);
 
   useEffect(() => {
     if (!user) return;
@@ -23,6 +25,12 @@ export default function EditDetails() {
 
   const { id } = router.query;
   const { data } = fetchData("/api/admin/users/" + id);
+
+  useEffect(() => {
+    if (!data) return;
+    setRoles(data?.role?.map(role => ({label: role, value: role})));
+  }, [data])
+
 
   const formik = useFormik({
     initialValues: {
@@ -63,6 +71,7 @@ export default function EditDetails() {
             whatsapp: values?.whatsapp,
           },
           key: data.key,
+          role: roles.map(role => role.value),
         })
         .then((res) => {
           toast()
@@ -78,12 +87,12 @@ export default function EditDetails() {
         });
     },
   });
-
+console.log(data?.role?.map(role => ({label: role, value: role})))
   return (
     <>
       <div className="flex flex-wrap">
         <div className="w-full px-4 py-3 mx-auto lg:w-8/12">
-          <EditForm formik={formik} />
+          <EditForm formik={formik} user={user}  roles={roles} setRoles={setRoles} />
         </div>
       </div>
     </>
@@ -92,7 +101,7 @@ export default function EditDetails() {
 
 EditDetails.layout = Admin;
 
-const EditForm = ({ formik }) => (
+const EditForm = ({ formik, user,roles, setRoles }) => (
   <Form onSubmit={formik.handleSubmit}>
     <Form.Title title="Edit User Profile">
       <Form.Button />
@@ -130,6 +139,14 @@ const EditForm = ({ formik }) => (
       {formik.touched.department && formik.errors.department ? (
         <Form.Error>{formik.errors.department}</Form.Error>
       ) : null}
+     {user?.role?.includes('admin') && <Form.TagsInput
+                label="Tags"
+                size="1/2"
+                value={roles}
+                onChange={(t) => setRoles(t)}
+                options={allRoles.map((tag) => ({label: tag, value: tag}))}
+              />}
+
     </Form.Section>
     <Form.Section title={"Social Media"}>
       <Form.TextInput
