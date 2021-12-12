@@ -4,7 +4,8 @@ import React from "react";
 
 function FilesItem({ title, description, url, tags, onEdit, onDelete }) {
   return (
-    <div className="flex overflow-hidden bg-white border-transparent rounded-lg shadow-lg">
+    <div className="w-full p-3 xl:w-1/2">
+    <div className="flex m-2 overflow-hidden bg-white border-transparent rounded-lg shadow-lg">
       <div className="flex flex-col flex-grow p-5 text-gray-700 bg-teal-50">
         <div className="flex justify-between">
           <h3 className="text-xl font-bold">{title}</h3>
@@ -13,7 +14,7 @@ function FilesItem({ title, description, url, tags, onEdit, onDelete }) {
           <p className="text-sm">{description}</p>
         </div>
         <div className="flex-grow-0">
-          <DecoratedText title="File Link" text={url} />
+          <DecoratedText title="File Link" text={url} className="line-clamp-1" />
         </div>
         <div className="flex">
           <div className="flex flex-wrap flex-grow text-xs">
@@ -33,6 +34,7 @@ function FilesItem({ title, description, url, tags, onEdit, onDelete }) {
             <ClickAndEditBtn onDelete={onDelete} onEdit={onEdit} />
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

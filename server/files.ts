@@ -1,4 +1,6 @@
-import { filesDB, FileType, imagesDB, ImageType } from "./db";
+import { v4 as uuidv4 } from "uuid";
+
+import { filesDB, FileType, imagesDB, ImageType, deletedDB } from "./db";
 
 export async function getFile(key: string) {
   const res = await filesDB.get(key);
@@ -20,6 +22,14 @@ export async function getAllFIles() {
   return res.items as unknown as FileType[] | null;
 }
 
+export async function deleteFile(key: string) {
+  let deleted = await filesDB.get(key);
+  if (!deleted) return null;
+  await deletedDB.put({...deleted, key: uuidv4()})
+  await filesDB.delete(key);
+  return true
+}
+
 export async function createImage(file: {}) {
   const res = await imagesDB.put(file);
   return res as unknown as ImageType | null;
@@ -28,4 +38,9 @@ export async function createImage(file: {}) {
 export async function getImage(key: string) {
   const res = await imagesDB.get(key);
   return res as unknown as ImageType | null;
+}
+
+export async function getAllImages() {
+  const res = await imagesDB.fetch();
+  return res.items as unknown as ImageType[] | null;
 }

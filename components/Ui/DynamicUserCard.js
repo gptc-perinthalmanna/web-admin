@@ -2,7 +2,7 @@ import React from "react";
 import { fetchData } from "helpers/fetcher";
 
 function DynamicUserCard({ staffId, onClick }) {
-  const { data, error } = fetchData("/api/admin/users/" + staffId);
+  const { data } = fetchData("/api/admin/users/" + staffId);
   return (
     <div className="relative flex p-2 pr-3 m-2 bg-gray-200 border-2 rounded-md">
       {onClick && (

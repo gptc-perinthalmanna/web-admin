@@ -1,6 +1,6 @@
 import adminRoute from "helpers/routes/adminRoute";
-import { getAllEvents } from "server/pages";
+import { getAllImages } from "server/files";
 
 export default adminRoute(async () => {
-  return getAllEvents();
+  return getAllImages();
 });

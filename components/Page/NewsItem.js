@@ -1,7 +1,10 @@
 import React from 'react'
+
 import ClickAndEditBtn from "components/Ui/ClickAndEditBtn";
+import { fetchData } from "helpers/fetcher";
 
 function NewsItem({ title, decription, author, date, onEdit, onDelete }) {
+  const { data } = fetchData("/api/admin/users/" + author);
     return (
         <div className="w-full p-3 xl:w-1/2">
           <div className="flex overflow-hidden bg-white border-transparent rounded-lg shadow-lg">
@@ -18,7 +21,7 @@ function NewsItem({ title, decription, author, date, onEdit, onDelete }) {
               <div className="flex">
                 <div className="flex flex-wrap flex-grow">
                   <span className="inline-block px-2 py-1 mr-1 text-xs font-semibold text-red-600 uppercase bg-red-200 rounded last:mr-0">
-                    <i className="mr-1 fas fa-user" /> {author}
+                    <i className="mr-1 fas fa-user" /> {data?.name}
                   </span>
                 </div>
                 <div className="flex-shrink-0">

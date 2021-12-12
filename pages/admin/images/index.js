@@ -4,14 +4,12 @@ import { fetchData } from "helpers/fetcher";
 import ImageItem from "components/Page/ImageItem";
 
 export default function Dashboard() {
-  fetchData("/api/events");
+  const { data, error } = fetchData("/api/admin/images/all");
   return (
     <>
-
       <div className="flex flex-wrap">
-        <div className="w-full p-3 xl:w-1/2">
-          <ImageItem />
-        </div>
+        {!data && !error && <ImageItem.Loading />}
+        {data && data.map((event) => <ImageItem {...event} key={event.key} />)}
       </div>
     </>
   );
