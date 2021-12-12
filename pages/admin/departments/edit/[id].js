@@ -90,7 +90,7 @@ export default function EditDetails() {
                     key={staffId}
                     staffId={staffId}
                     onClick={() => {
-                      setStaffIds(staffIds.filter((id) => id !== staffId));
+                      setStaffIds(staffIds.filter((e) => e !== staffId));
                     }}
                   />
                 );

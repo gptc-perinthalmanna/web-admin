@@ -1,8 +1,8 @@
-import adminRoute from "helpers/routes/adminRoute";
 import * as yup from "yup";
 
-import {  deleteNotification } from "server/notifications";
+import adminRoute from "helpers/routes/adminRoute";
 import { validation } from "helpers/validation";
+import { deleteEvent } from "server/pages";
 
 const userValidationSchema: yup.SchemaOf<{}> = yup.object().shape({
   key: yup.string().required(),
@@ -17,7 +17,7 @@ export default adminRoute(async (req) => {
     return { error: errors };
   }
   const { key } = data;
-  await deleteNotification(key);
+  await deleteEvent(key);
 
   return {
     message: "success",

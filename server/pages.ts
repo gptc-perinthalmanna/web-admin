@@ -1,19 +1,18 @@
-import { facilitiesDb, campusDB, imagesDB, usersDb, eventsDB, CampusPageType, UserType, FacilityPageType, ImageType, EventType } from "./db";
-
-interface StaffType {
-  name: string;
-  designation: string;
-  social?: {
-    facebook: string;
-    twitter: string;
-    instagram: string;
-  };
-}
+import { v4 as uuidv4 } from "uuid";
+import { facilitiesDb, campusDB, imagesDB, usersDb, eventsDB, CampusPageType, UserType, FacilityPageType, ImageType, EventType, deletedDB } from "./db";
 
 interface PhotoType {
   src: string;
   alt: string;
   thumbnail: string;
+}
+
+export async function createPage(data: any, type = 'facility') {
+  if (type === 'facility') {
+    return facilitiesDb.put(data) as unknown as FacilityPageType | null;
+  } else if (type === 'campus') {
+    return  campusDB.put(data) as unknown as CampusPageType | null;
+  }
 }
 
 export async function getFacilities(key: string) {
@@ -25,7 +24,6 @@ export async function getFacilities(key: string) {
   }
   let unresolvedpromises: any
   let photos : PhotoType[] = Array();
-  let staffs : StaffType[] = Array();
 
   unresolvedpromises = facility?.photos_id?.map(async (element) => {
     const image = (await imagesDB.get(element)) as unknown as ImageType | null;
@@ -38,67 +36,12 @@ export async function getFacilities(key: string) {
     }
     return image
   });
-  unresolvedpromises = facility?.staffs_ids?.map(async (element) => {
-    const staff = (await usersDb.get(element)) as unknown as UserType | null;
-    if (staff) {
-      staffs.push(staff);
-    }
-    return staff
-  });
   if (unresolvedpromises) await Promise.all(unresolvedpromises)
+
+  const staffs = await addStaffs(facility)
+
   return {...facility, photos, staffs};
 }
-
-export async function getCampus(key: string) {
-  const campus = (await campusDB.get(key)) as unknown as CampusPageType | null;
-  if (!campus || campus == null) {
-    return null;
-  }
-  let unresolvedpromises: any
-  let staffs : UserType[] = [];
-  unresolvedpromises = campus.staffs_ids?.map(async (element) => {
-    const staff = (await usersDb.get(element)) as unknown as UserType | null;
-    if (staff) {
-      staffs.push(staff);
-    }
-    return staff
-  })
-  if (unresolvedpromises) await Promise.all(unresolvedpromises)
-  return {...campus, staffs};
-}
-
-
-export async function getEvents(page_id: string) {
-  const events = (await eventsDB.fetch({"tags?contains" : page_id})).items as unknown as EventType[] | null;
-  return events;
-}
-
-export async function getEvent(key: string) {
-  const event = (await eventsDB.get(key)) as unknown as EventType | null;
-  return event;
-}
-
-export async function getAllEvents() {
-  const events = (await eventsDB.fetch({}, {limit: 10})).items as unknown as EventType[] | null;
-  return events;
-}
-
-export async function createEvent(event: {}) {
-  const event_id = await eventsDB.put(event);
-  return event_id;
-}
-
-
-export async function createPage(type = 'facility', data: any) {
-  if (type === 'facility') {
-    const facility = (await facilitiesDb.put(data)) as unknown as FacilityPageType | null;
-    return facility;
-  } else if (type === 'campus') {
-    const campus = (await campusDB.put(data)) as unknown as CampusPageType | null;
-    return campus;
-  }
-}
-
 
 export async function getAllFacilites() {
   const facilities = (await facilitiesDb.fetch()).items as unknown as FacilityPageType[] | null;
@@ -108,21 +51,30 @@ export async function getAllFacilites() {
     _staffsDir = staffsDir;
     return {...facility, staffs}
   })
-  return await Promise.all(ret)
+  return Promise.all(ret)
 }
 
+export async function getCampus(key: string) {
+  const campus = (await campusDB.get(key)) as unknown as CampusPageType | null;
+  if (!campus || campus == null) {
+    return null;
+  }
+  const staffs = await addStaffs(campus)
+  return {...campus, staffs};
+}
 
 export async function getAllCampus() {
   const campus = (await campusDB.fetch()).items as unknown as CampusPageType[] | null;
   let _staffsDir: { [key:string] : UserType} = {};  // Cache staffs
-  const ret = campus.map(async (campus) => {
-    let {staffs, staffsDir} = await populateStaffs(campus.staffs_ids, _staffsDir)
+  const ret = campus.map(async (_campus) => {
+    let {staffs, staffsDir} = await populateStaffs(_campus.staffs_ids, _staffsDir)
     _staffsDir = staffsDir;
     return {...campus, staffs}
   })
-  return await Promise.all(ret)
+  return Promise.all(ret)
 }
 
+// HELPER Functions 
 
 export async function populateStaffs(staffs_ids: string[], staffsDir: { [key:string] : UserType} ) {
   let unresolvedpromises = staffs_ids.map(async (element) => {
@@ -139,3 +91,44 @@ export async function populateStaffs(staffs_ids: string[], staffsDir: { [key:str
   return {staffs, staffsDir}
 }
   
+async function addStaffs(e) {
+  let unresolvedpromises: any
+  let staffs : UserType[] = [];
+  unresolvedpromises = e.staffs_ids?.map(async (element) => {
+    const staff = (await usersDb.get(element)) as unknown as UserType | null;
+    if (staff) {
+      staffs.push(staff);
+    }
+    return staff
+  })
+  if (unresolvedpromises) await Promise.all(unresolvedpromises)
+  return staffs
+}
+
+// Events
+
+export async function getEvents(page_id: string) {
+  return (await eventsDB.fetch({"tags?contains" : page_id})).items as unknown as EventType[] | null;
+}
+
+export async function getEvent(key: string) {
+  return eventsDB.get(key) as unknown as EventType | null;
+}
+
+export async function getAllEvents() {
+  return (await eventsDB.fetch({}, {limit: 10})).items as unknown as EventType[] | null;
+}
+
+export async function createEvent(event: {}) {
+  return eventsDB.put(event);
+}
+
+export async function deleteEvent(key: string) {
+  let deleted = await eventsDB.get(key);
+  if (!deleted) return null;
+  await deletedDB.put({...deleted, key: uuidv4()})
+  await eventsDB.delete(key);
+  return true
+}
+
+

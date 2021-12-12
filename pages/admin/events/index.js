@@ -1,15 +1,25 @@
 import React from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
+
 import Admin from "layouts/Admin.js";
 import { fetchData } from "helpers/fetcher";
-import EventItem from "../../../components/Page/EventItem";
+import EventItem from "components/Page/EventItem";
 import PageTitle from "components/Ui/PageTitle";
-import Button from "../../../components/Ui/Button";
-import { useRouter } from "next/router";
+import Button from "components/Ui/Button";
 
 export default function Dashboard() {
   const { data, error } = fetchData("/api/admin/events/all");
-  const router = useRouter()
-
+  const router = useRouter();
+  const deleteEvent = async (id) => {
+    const res = await axios.post("/api/admin/events/delete", {
+      key: id,
+    });
+    if (res.error) {
+      console.log(res.error);
+    }
+    router.reload();
+  };
   return (
     <>
       <PageTitle>Events</PageTitle>
@@ -22,7 +32,12 @@ export default function Dashboard() {
         {!data && !error && <EventItem.Loading />}
         {data &&
           data.map((event) => (
-            <EventItem {...event} onDelete={() => {}} onEdit={() => {}} />
+            <EventItem
+              {...event}
+              onDelete={() => {
+                deleteEvent(event.key);
+              }}
+            />
           ))}
       </div>
     </>
