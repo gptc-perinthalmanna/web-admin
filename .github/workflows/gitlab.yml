@@ -15,7 +15,7 @@ jobs:
         fetch-depth: 0
     - uses: wangchucheng/git-repo-sync@v0.1.0
       with:
-        target-url: https://gitlab.com/amjed-ali-k/gptc-perinthalmanna.git
+        target-url: https://gitlab.com/amjed-ali-k/web-admin.git
         # Such as wangchucheng
         target-username: amjed-ali-k
         target-token: ${{ secrets.GITLAB_TOKEN }}
