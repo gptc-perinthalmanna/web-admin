@@ -18,7 +18,7 @@ export default function Dashboard() {
         {
           menu.map((item, index) => (
             item.items.map((subItem, subIndex) => {
-              const found = subItem?.roles?.some(r=> user?.role.includes(r))
+              const found = subItem?.roles?.some(r=> user?.role?.includes(r))
               if( user && subItem.roles && !found ){
                 return null
               }
