@@ -66,7 +66,7 @@ export default function Sidebar() {
             {menu.map((item, index) => (
             <Menu key={index} title={item.title} item={item}>
               {item.items.map((subItem, subIndex) => {
-                const found = subItem?.roles?.some(r=> user?.role.includes(r))
+                const found = subItem?.roles?.some(r=> user?.role?.includes(r))
                 if( user && subItem.roles && !found ){
                   return null
                 }

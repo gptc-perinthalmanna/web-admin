@@ -10,6 +10,8 @@ import Button from "components/Ui/Button";
 export default function Dashboard() {
   const router = useRouter();
   const { data, error } = fetchData("/api/admin/custom/committees/all");
+  data?.sort((a,b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
+
   return (
     <>
       <PageTitle>Committiees</PageTitle>
