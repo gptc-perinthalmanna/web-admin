@@ -1,8 +1,9 @@
+import React from "react";
+import { ErrorBoundary } from "react-error-boundary";
+
 import ClickAndEditBtn from "components/Ui/ClickAndEditBtn";
 import DecoratedText from "components/Ui/DecoratedText";
 import MinimalUserCard from "components/Ui/MinimalUserCard";
-import React from "react";
-
 function FacilityItem({
   title,
   description,
@@ -12,6 +13,12 @@ function FacilityItem({
   onDelete,
 }) {
   return (
+    <ErrorBoundary
+    FallbackComponent={ErrorFallback}
+    onReset={() => {
+      // reset the state of your app so the error doesn't happen again
+    }}
+  >
     <div className="w-full p-3 xl:w-1/2">
     <div className="flex my-2 overflow-hidden bg-white border-transparent rounded-lg shadow-lg">
       <div className="flex flex-col flex-grow p-5 text-gray-700 bg-teal-50">
@@ -40,7 +47,7 @@ function FacilityItem({
           </div>
         </div>
       </div>
-    </div></div>
+    </div></div></ErrorBoundary>
   );
 }
 
@@ -66,3 +73,20 @@ function Loading() {
 }
 
 FacilityItem.Loading = Loading;
+
+
+
+function ErrorFallback() {
+  return (
+    <>
+    <div className="w-full p-3 xl:w-1/2">
+    <div className="flex items-center justify-center h-40 my-2 overflow-hidden text-xl ease-in-out bg-gray-300 border-transparent rounded-lg shadow-lg animate-pulse">
+      <p><i className="mr-3 text-red-700 fas fa-exclamation-triangle animate-pulse" />An error occured...</p>
+      </div>
+    </div>
+    </>
+ 
+  )
+}
+
+FacilityItem.ErrorFallback = ErrorFallback;

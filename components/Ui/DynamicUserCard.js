@@ -1,8 +1,9 @@
 import React from "react";
 import { fetchData } from "helpers/fetcher";
 
-function DynamicUserCard({ staffId, onClick }) {
+function DynamicUserCard({ staffId, description, onClick }) {
   const { data } = fetchData("/api/admin/users/" + staffId);
+  const des = description ? description : data?.designation 
   return (
     <div className="relative flex p-2 pr-3 m-2 bg-gray-200 border-2 rounded-md">
       {onClick && (
@@ -16,7 +17,7 @@ function DynamicUserCard({ staffId, onClick }) {
       <i className="mr-3 text-2xl text-gray-600 fas fa-user-circle"></i>
       <div>
         <h3 className="font-bold">{data ? data.name : "Loading..."}</h3>
-        <p className="text-xs capitalize">{data?.designation}</p>
+        <p className="text-xs capitalize">{des}</p>
       </div>
     </div>
   );
