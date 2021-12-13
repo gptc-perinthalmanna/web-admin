@@ -11,8 +11,5 @@ export async function getDeptFacilites(key: string) {
 }
 
 export async function createDeptFacility(data: any) {
-  const deptFacility = (await deptFacilitiesDB.put(
-    data
-  )) as unknown as DepartmentFacilityType | null;
-  return deptFacility;
+  return deptFacilitiesDB.put(data) as unknown as DepartmentFacilityType | null;
 }

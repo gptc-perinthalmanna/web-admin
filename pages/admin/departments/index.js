@@ -22,8 +22,8 @@ export default function Dashboard() {
               description={facility.about}
               coverImageUri={facility.cover}
               users={facility.staffs.map((staff) => ({
-                name: staff.name,
-                description: staff.designation,
+                name: staff?.name,
+                description: staff?.designation,
               }))}
               onEdit={() => router.push(`/admin/departments/edit/${facility.key}`)}
             />

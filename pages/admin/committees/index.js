@@ -5,25 +5,45 @@ import FacilityItem from "components/Page/FacilityItem";
 import PageTitle from "components/Ui/PageTitle";
 
 export default function Dashboard() {
-  const { data, error } = fetchData("/api/admin/campus/all");
+  const { data, error } = fetchData("/api/admin/custom/committees/all");
+  // console.log(data)
   return (
     <>
      <PageTitle>Committiees</PageTitle>
       <div className="flex flex-wrap">
-        <div className="w-full p-3 xl:w-1/2">
-          <FacilityItem
-            title="Innovation Cell/Club"
-            description="Electronic engineering, or electronics engineering is a form of engineering associated with electronic circuits, devices and the equipment and systems that use them.Electronic engineering utilises a variety of different types of electronic components from the more traditional analogue components through to digital electronic components, microprocessors and microcontrollers as well as programmable logic devices. This means that electronic engineering can incorporate a large variety of different areas.The field of electronic engineering includes a variety more specific electronic engineering fields including: analogue electronics, digital electronics, consumer electronics, embedded systems and power electronics."
-            users={[
-              { name: "Amjed Ali", description: "Faculty" },
-              { name: "Sajid Ali", description: "Faculty" },
-            ]}
-            onEdit={() => {}}   
-          />
-        </div>
+      {!data && !error && <FacilityItem.Loading />}
+        {data &&
+          data.map((facility) => (
+            <CommitteItem
+              key={facility.title}
+             {...facility}
+              onEdit={() => router.push(`/admin/committees/edit/${facility.title}`)}
+            />
+          ))}
       </div>
     </>
   );
 }
 
 Dashboard.layout = Admin;
+
+
+function CommitteItem({ title, staffs_ids, ...props }) {
+  let staffs = {}
+  staffs_ids?.forEach((e) => {
+    const {data} = fetchData(`/api/admin/users/${e.key}`)
+    staffs[e.key] = data
+  });
+
+  return (
+    <FacilityItem
+    key={title}
+    title={title}
+    users={staffs_ids.map((staff) => ({
+      name: staffs[staff.key] ? staffs[staff.key].name : staff.key,
+      description: staff?.position,
+    }))}
+    {...props}
+  />
+  )
+}
