@@ -79,12 +79,12 @@ export const menu =  [
         link: "/admin/departments",
         roles: ["admin"],
       },
-      {
-        title: "Custom Pages",
-        icon: "fa-file",
-        link: "/admin/custom-pages",
-        roles: ["admin"],
-      },
+      // {
+      //   title: "Custom Pages",
+      //   icon: "fa-file",
+      //   link: "/admin/custom-pages",
+      //   roles: ["admin"],
+      // },
     ],
   },
   {
@@ -102,12 +102,12 @@ export const menu =  [
         link: "/admin/highlighted-event",
         roles: ["admin"],
       },
-      {
-        title: "hero Images",
-        icon: "fa-images",
-        link: "/admin/hero-images",
-        roles: ["admin"],
-      },
+      // {
+      //   title: "hero Images",
+      //   icon: "fa-images",
+      //   link: "/admin/hero-images",
+      //   roles: ["admin"],
+      // },
     ],
   },
   {

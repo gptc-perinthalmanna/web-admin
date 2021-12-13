@@ -17,7 +17,12 @@ export default function Dashboard() {
       <div className="flex flex-wrap">
         {
           menu.map((item, index) => (
-            item.items.map((subItem, subIndex) => (
+            item.items.map((subItem, subIndex) => {
+              const found = subItem?.roles?.some(r=> user?.role.includes(r))
+              if( user && subItem.roles && !found ){
+                return null
+              }
+              return (
               <CardMenu
                 key={`${index}-${subIndex}`}
                 statTitle={subItem.title}
@@ -25,7 +30,7 @@ export default function Dashboard() {
                 statLink={subItem.link}
                 statSubtitle={item.title}
               />
-            ))
+            )})
           ))
         }
       </div>
