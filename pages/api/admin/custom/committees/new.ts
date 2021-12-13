@@ -18,8 +18,6 @@ export default async function handler(
       userValidationSchema,
       req.body
     );
-    console.log(data)
-    console.log(errors)
     if (!isValid) {
       return res.status(400).json({ error: errors });
     }

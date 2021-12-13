@@ -7,6 +7,6 @@ export default adminRoute(async (req) => {
     return {
       error: "User not found",
     };
-  const title = decodeURI(id);
+  const title = decodeURIComponent(id);
   return getCommittee(title);
 });

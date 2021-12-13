@@ -3,7 +3,7 @@ import { fetchData } from "helpers/fetcher";
 
 function DynamicUserCard({ staffId, description, onClick }) {
   const { data } = fetchData("/api/admin/users/" + staffId);
-  const des = description ? description : data.designation 
+  const des = description ? description : data?.designation 
   return (
     <div className="relative flex p-2 pr-3 m-2 bg-gray-200 border-2 rounded-md">
       {onClick && (

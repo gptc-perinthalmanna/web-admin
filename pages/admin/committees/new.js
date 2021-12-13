@@ -7,7 +7,6 @@ import {toast } from 'tailwind-toast'
 
 import Admin from "layouts/Admin.js";
 import Form from "components/Forms/Form";
-import { fetchData } from "helpers/fetcher";
 import DynamicUserCard from "components/Ui/DynamicUserCard";
 import Modal from "components/Ui/Modal";
 import UserSelect from "components/Forms/UserSelect";
@@ -19,17 +18,10 @@ export default function EditDetails() {
   const [position, setPosition] = useState(() => null);
 
   const router = useRouter();
-  const { id } = router.query;
-
-  const { data } = fetchData("/api/admin/custom/committees/" + encodeURIComponent(decodeURIComponent(id)));
-
-  useEffect(() => {
-    setStaffIds(data?.staffs_ids);
-  }, [data]);
 
   const formik = useFormik({
     initialValues: {
-      title: data?.title,
+      title: "",
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
@@ -48,6 +40,7 @@ export default function EditDetails() {
           router.push("/admin/committees");
         })
         .catch((err) => {
+            toast().error('Error!', 'An error occured!').with({color: 'bg-red-800'}).from('bottom', 'end').as('pill').show() //show pill shaped toast
           alert(err.response.data.message);
         });
     },
@@ -75,7 +68,7 @@ export default function EditDetails() {
                     staffId={staffId.key}
                     description={staffId.position}
                     onClick={() => {
-                      setStaffIds(staffIds.filter((e) => e.key !== staffId?.key));
+                      setStaffIds(staffIds.filter((e) => e !== staffId?.key));
                     }}
                   />
                 );
@@ -87,7 +80,7 @@ export default function EditDetails() {
       </div>
       <Modal
         show={showModal}
-        title={"Add new committee member"}
+        title={"Search user to add into page"}
         onClose={() => {
           setSelectedUser(null);
           setShowModal(false);
@@ -107,15 +100,11 @@ export default function EditDetails() {
                 value={position}
                 onChange={(e) => {setPosition(e.target.value)}}
               />
-               <div className="relative w-full px-4 mb-3">
-      <label className="block mb-2 text-xs font-bold uppercase text-blueGray-600">
-       Memeber
-      </label>
         <UserSelect
           onChange={(e) => {
             setSelectedUser(e.value);
           }}
-        /></div>
+        />
       </Modal>
     </>
   );
