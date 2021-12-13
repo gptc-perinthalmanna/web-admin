@@ -6,8 +6,8 @@ import { createCommittee, WhosWho } from "server/customCommitties";
 
 const userValidationSchema: yup.SchemaOf<WhosWho['value']['committees'][0]> = yup.object().shape({
   title: yup.string().min(3).required(),
-  staff_ids: yup.array().of(yup.object().shape({key: yup.string().required(), position: yup.string().required()})).min(1).required(),
-});
+  staffs_ids: yup.array().of(yup.object().shape({key: yup.string().required(), position: yup.string().required()})).min(1).required(),
+}).noUnknown();
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,6 +18,8 @@ export default async function handler(
       userValidationSchema,
       req.body
     );
+    console.log(data)
+    console.log(errors)
     if (!isValid) {
       return res.status(400).json({ error: errors });
     }

@@ -1,6 +1,6 @@
 import { otherDB } from "./db";
 
-export interface WhosWho {value: { committees: {staff_ids: {key: string; position: string}[]; title: string}[]}, key: string}
+export interface WhosWho {value: { committees: {staffs_ids: {key: string; position: string}[]; title: string}[]}, key: string}
 
 export async function getCommittee(name:string) {
    const {value} = await otherDB.get('who-is-who') as unknown as WhosWho
