@@ -79,6 +79,12 @@ export const menu =  [
         link: "/admin/departments",
         roles: ["admin"],
       },
+      {
+        title: "Dept Facilites",
+        icon: "fa-building",
+        link: "/admin/dept-facility",
+        roles: ["admin"],
+      },
       // {
       //   title: "Custom Pages",
       //   icon: "fa-file",

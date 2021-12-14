@@ -1,6 +1,6 @@
 import adminRoute from "helpers/routes/adminRoute";
-import { getAllDepartments } from "server/departments";
+import { getAllDeptFacilites } from "server/facilities";
 
 export default adminRoute(async () => {
-  return getAllDepartments();
+  return  getAllDeptFacilites();
 });

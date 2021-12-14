@@ -37,19 +37,19 @@ export const tagPermissions = {
 }
 
 export const notificationPermissions = {
-    'electrical-dept-charge': 'electrical-dept',
-    'mechanical-dept-charge': 'mechanical-dept',
-    'electronics-dept-charge': 'electronics-dept',
-    'civil-dept-charge': 'civil-dept',
+    'electrical-dept-charge': 'electrical-and-electronics-engineering',
+    'mechanical-dept-charge': 'mechanical-engineering',
+    'electronics-dept-charge': 'electronics-engineering',
+    'civil-dept-charge': 'civil-engineering',
     'office-dept-charge': 'office-section',
     'workshop-dept-charge': 'workshop-section',
 }
 
 export const eventsTags = [
-    { name: "electronics-dept" },
-    { name: "electrical-dept" },
-    { name: "civil-dept" },
-    { name: "mechanical-dept" },
+    { name: "electronics-engineering" },
+    { name: "electrical-and-electronics-engineering" },
+    { name: "civil-engineering" },
+    { name: "mechanical-engineering" },
     { name: "general-dept" },
     { name: "office-section" },
     { name: "nss" },
@@ -59,10 +59,10 @@ export const eventsTags = [
   ];
 
  export const notificationTags = [
-    { name: "electronics-dept" },
-    { name: "electrical-dept" },
-    { name: "civil-dept" },
-    { name: "mechanical-dept" },
+    { name: "electronics-engineering" },
+    { name: "electrical-and-electronics-engineering" },
+    { name: "civil-engineering" },
+    { name: "mechanical-engineering" },
     { name: "general-dept" },
     { name: "office-section" },
   ];
