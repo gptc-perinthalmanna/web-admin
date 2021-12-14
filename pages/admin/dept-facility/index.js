@@ -21,6 +21,7 @@ export default function Dashboard() {
               title={facility.title}
               description={facility.description}
               coverImageUri={facility.image}
+              tags={facility.tags}
               onEdit={() => router.push(`/admin/dept-facility/edit/${facility.key}`)}
             />
           ))}
