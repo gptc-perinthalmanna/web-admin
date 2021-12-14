@@ -13,3 +13,8 @@ export async function getDeptFacilites(key: string) {
 export async function createDeptFacility(data: any) {
   return deptFacilitiesDB.put(data) as unknown as DepartmentFacilityType | null;
 }
+
+
+export async function getAllDeptFacilites() {
+  return (await deptFacilitiesDB.fetch()).items as unknown as DepartmentFacilityType[] | null;
+}
