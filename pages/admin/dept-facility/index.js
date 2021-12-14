@@ -5,6 +5,7 @@ import Admin from "layouts/Admin.js";
 import { fetchData } from "helpers/fetcher";
 import FacilityItem from "components/Page/FacilityItem";
 import PageTitle from "components/Ui/PageTitle";
+import Button from "components/Ui/Button";
 
 export default function Dashboard() {
   const { data, error } = fetchData("/api/admin/dept-facility/all");
@@ -12,6 +13,11 @@ export default function Dashboard() {
   return (
     <>
       <PageTitle>Facilities under Each Dept</PageTitle>
+      <div className="flex justify-end w-full">
+        <Button onClick={() => router.push("/admin/dept-facility/new")}>
+          <i className="fas fa-plus" /> Create New Committee
+        </Button>
+      </div>
       <div className="flex flex-wrap">
         {!data && !error && <FacilityItem.Loading />}
         {data &&
