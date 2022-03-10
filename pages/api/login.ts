@@ -14,8 +14,6 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
   try {
     const userDB = await getUserbyUsername(username);
     const isValid = await bcrypt.compare(password, userDB.password);
-    const pass = await bcrypt.hash(password, 10);
-    console.log(pass)
 
     if (!isValid) {
       throw new Error("Invalid password");
