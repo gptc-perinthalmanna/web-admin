@@ -10,7 +10,7 @@ const userValidationSchema: yup.SchemaOf<{}> = yup.object().shape({
     return new Date().getTime().toString();
   }),
   title: yup.string().min(3).required(),
-  subtitle: yup.string().min(10),
+  subtitle: yup.string().min(5),
   tags: yup.array().of(yup.string()).min(1).required(),
   image: yup.string().url().required(),
   date: yup.string().required(),
@@ -28,7 +28,7 @@ export default async function handler(
       userValidationSchema,
       req.body
     );
-    
+
     if (!isValid) {
       return res.status(400).json({ error: errors });
     }
