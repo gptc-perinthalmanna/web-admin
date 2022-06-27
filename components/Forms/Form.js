@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -38,7 +38,11 @@ function FormTitle({ title, children }) {
 function Button({ title = "Save", className, ...props }) {
   return (
     <button
-      className={"px-4 py-2 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-700 active:bg-blueGray-600 hover:shadow-md focus:outline-none " + className}
+    type="submit"
+      className={
+        "px-4 py-2 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-700 active:bg-blueGray-600 hover:shadow-md focus:outline-none " +
+        className
+      }
       {...props}
     >
       {title}
@@ -110,10 +114,16 @@ function FormSection({ children, title }) {
 function UploadImage({
   setUrl = (object) => console.log(object),
   setKey = (object) => console.log(object),
+  uploadAgain = 0,
 }) {
   const [file, setFile] = React.useState(null);
   const [createObjectURL, setCreateObjectURL] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
+
+  useEffect(() => {
+    if(!!file)
+    uploadToServer();
+  }, [uploadAgain]);
 
   const uploadToClient = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -203,10 +213,10 @@ function Error({ children }) {
 }
 
 function TagsInput({ label, options, defaultValue, ...props }) {
-  const [defaultv, setDefault] = useState(null)
+  const [defaultv, setDefault] = useState(null);
   useEffect(() => {
-    setDefault(defaultValue)
-  }, [defaultValue])
+    setDefault(defaultValue);
+  }, [defaultValue]);
   return (
     <div className="relative w-full px-4 mb-3">
       <label className="block mb-2 text-xs font-bold uppercase text-blueGray-600">

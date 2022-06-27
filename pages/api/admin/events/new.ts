@@ -21,11 +21,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<{} | { error: string }>
 ) {
+  console.log(req.body);
+  
   if (req.method === "POST") {
     const { isValid, errors, data } = await validation(
       userValidationSchema,
       req.body
     );
+    
     if (!isValid) {
       return res.status(400).json({ error: errors });
     }

@@ -13,6 +13,7 @@ export default function EditDetails() {
   const router = useRouter();
   const [image, setimage] = useState(null)
   const [tags, setTags] = useState([]);
+  const [rcount, setRcount] = useState(0);
 
   const formik = useFormik({
     initialValues: {
@@ -28,6 +29,15 @@ export default function EditDetails() {
       date: Yup.string().required("This Field is Required"),
     }),
     onSubmit: (values) => {
+      if(!image && rcount === 0){
+        setRcount(rcount + 1);
+        toast().warning("Uploading image.. Retry again.").with({ color: "bg-yellow-800" }).from("bottom", "end")
+        .as("pill")
+        .show();
+      }else{
+        setRcount(0);
+      }
+
       axios
         .post("/api/admin/events/new/", {
           ...values, image, tags : tags.map(tag => tag.value)
@@ -42,11 +52,13 @@ export default function EditDetails() {
           router.push("/admin/events");
         })
         .catch((err) => {
-          alert(err.response.data.message);
+          toast().success('Error', err.response.data.error).with({ color: "bg-red-800" }).from("bottom", "end")
+          .as("pill")
+          .show(); //show pill shaped toast;
         });
     },
   });
-
+console.log(image)
   return (
     <>
       <div className="flex flex-wrap">
@@ -79,7 +91,7 @@ export default function EditDetails() {
               />
             </Form.Section>
             <Form.Section title={"Photos"}>
-            <Form.Image setUrl={setimage}  />
+            <Form.Image setUrl={setimage} uploadAgain={rcount}  />
             </Form.Section>
           </Form>
         </div>
