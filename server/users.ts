@@ -30,8 +30,13 @@ export async function getUser(key: string) {
   return user as unknown as UserType | null;
 }
 
+export async function getMultipleUsers(users: string[]) {
+  const query = users.map((e) => ({ id: e }));
+  return (await usersDb.fetch(query)).items as unknown as UserType[];
+}
+
 export async function getUserbyUsername(username: string) {
-  const users = await usersDb.fetch({phone: username});
+  const users = await usersDb.fetch({ phone: username });
   return users.count > 0 ? (users.items as unknown as UserType[])[0] : null;
 }
 

@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { UserType } from "server/db";
 import { getOther } from "server/other";
-import { getUser } from "server/users";
+import { getMultipleUsers, getUser } from "server/users";
 
 interface Committee {
   title: string;
@@ -21,23 +21,14 @@ export default async function handler(
   if (req.method === "GET") {
     const page = (await getOther("who-is-who")) as PageType;
     let unresolvedpromises: any;
-    let staffs: { [key: string]: UserType } = {};
+
+    const staffList = new Set<string>();
     page.committees.forEach((committee) => {
-      unresolvedpromises = committee.staffs_ids.map(async (staff_id) => {
-        if (!("key" in staff_id)) return null;
-        if (staffs[staff_id.key]) return null;
-        try {
-          const user = await getUser(staff_id.key);
-          if (user) {
-            staffs[user?.key] = { ...user, role: [] };
-            return user;
-          }
-        } catch (e) {
-          return null;
-        }
-        return null;
+      committee.staffs_ids.forEach((staff) => {
+        staffList.add(staff.key);
       });
     });
+    const staffs = await getMultipleUsers(Array.from(staffList.values()));
 
     if (unresolvedpromises) await Promise.all(unresolvedpromises);
     res.status(200).json({ ...page, staffs });
