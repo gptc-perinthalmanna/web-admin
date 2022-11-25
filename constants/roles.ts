@@ -13,6 +13,8 @@ export default [
   "mechanical-dept-charge",
   "electronics-dept-charge",
   "boomithrasena-club-in-charge",
+  "iedc-nodal-officer",
+  "student-in-iedc-team",
 ];
 
 export const deptPermissionsInverted = {
@@ -34,6 +36,8 @@ export const tagPermissions = {
   "placement-officer": "placement-cell",
   "boomithrasena-club-in-charge": "boomithraseena-club",
   "staff-club-in-charge": "staff-club",
+  "iedc-nodal-officer": "iedc",
+  "student-in-iedc-team": "iedc",
 };
 
 export const notificationPermissions = {
