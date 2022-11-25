@@ -7,30 +7,34 @@ import { createUser } from "server/users";
 import bcrypt from "bcryptjs";
 import { validation } from "helpers/validation";
 
-const userValidationSchema: yup.SchemaOf<{}> = yup.object().shape({
-  key: yup.string().default(function () {
-    return uuidv4();
-  }),
-  name: yup.string().required(),
-  email: yup.string().email().required(),
-  password: yup.string().required(),
-  designation: yup.string().required(),
-  department: yup.string().required(),
-  createdAt: yup.number().default(function () {
-    return Date.now();
-  }),
-  updatedAt: yup.number().default(function () {
-    return Date.now();
-  }),
-  phone: yup.string().required(),
-  address: yup.string().required(),
-  socialLinks: yup.object().shape({
-    facebook: yup.string().url(),
-    linkedin: yup.string().url(),
-    instagram: yup.string().url(),
-    whatsapp: yup.string(),
-  }),
-}).noUnknown();
+const userValidationSchema: yup.SchemaOf<{}> = yup
+  .object()
+  .shape({
+    key: yup.string().default(function () {
+      return uuidv4();
+    }),
+    name: yup.string().required(),
+    email: yup.string().email().required(),
+    password: yup.string().required(),
+    designation: yup.string(),
+    yearOfPassout: yup.number(),
+    department: yup.string().required(),
+    createdAt: yup.number().default(function () {
+      return Date.now();
+    }),
+    updatedAt: yup.number().default(function () {
+      return Date.now();
+    }),
+    phone: yup.string().required(),
+    address: yup.string().required(),
+    socialLinks: yup.object().shape({
+      facebook: yup.string().url(),
+      linkedin: yup.string().url(),
+      instagram: yup.string().url(),
+      whatsapp: yup.string(),
+    }),
+  })
+  .noUnknown();
 
 export default async function handler(
   req: NextApiRequest,
