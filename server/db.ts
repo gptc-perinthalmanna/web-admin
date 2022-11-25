@@ -141,9 +141,12 @@ export interface EventType {
   title: string;
   subtitle: string;
   image: string;
+  images?: string[];
   date: string;
   type: string;
   tags: string[];
+  createdAt: string;
+  createdBy: string;
 }
 
 export interface DepartmentFacilityType {

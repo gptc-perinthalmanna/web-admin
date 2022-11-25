@@ -1,6 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import useUser from "lib/useUser";
 
 import Admin from "layouts/Admin.js";
 import { fetchData } from "helpers/fetcher";
@@ -11,6 +12,7 @@ import Button from "components/Ui/Button";
 export default function Dashboard() {
   const { data, error } = fetchData("/api/admin/events/all");
   const router = useRouter();
+  const { user } = useUser();
   const deleteEvent = async (id) => {
     const res = await axios.post("/api/admin/events/delete", {
       key: id,
@@ -20,6 +22,7 @@ export default function Dashboard() {
     }
     router.reload();
   };
+
   return (
     <>
       <PageTitle>Events</PageTitle>
@@ -34,9 +37,13 @@ export default function Dashboard() {
           data.map((event) => (
             <EventItem
               {...event}
-              onDelete={() => {
-                deleteEvent(event.key);
-              }}
+              onDelete={
+                user?.role.includes("admin")
+                  ? () => {
+                      deleteEvent(event.key);
+                    }
+                  : null
+              }
             />
           ))}
       </div>

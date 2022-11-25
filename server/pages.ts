@@ -128,8 +128,8 @@ export async function getEvent(key: string) {
   return eventsDB.get(key) as unknown as EventType | null;
 }
 
-export async function getAllEvents() {
-  return (await eventsDB.fetch({}, { limit: 10 })).items as unknown as
+export async function getAllEvents(limit = 20) {
+  return (await eventsDB.fetch({}, { limit })).items as unknown as
     | EventType[]
     | null;
 }

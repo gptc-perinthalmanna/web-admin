@@ -21,8 +21,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<{} | { error: string }>
 ) {
-  console.log(req.body);
-  
   if (req.method === "POST") {
     const { isValid, errors, data } = await validation(
       userValidationSchema,
@@ -35,6 +33,8 @@ export default async function handler(
 
     const file: EventType = {
       ...data,
+      createdAt: new Date().getTime(),
+      createdBy: req.session.user.key,
     } as unknown as EventType;
 
     await createEvent(file);
