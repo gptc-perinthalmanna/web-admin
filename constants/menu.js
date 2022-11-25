@@ -1,4 +1,4 @@
-export const menu =  [
+export const menu = [
   {
     title: "Contents",
     items: [
@@ -6,7 +6,12 @@ export const menu =  [
         title: "Events",
         icon: "fa-calendar-alt",
         link: "/admin/events/",
-        roles: ["admin"],
+        roles: [
+          "admin",
+          "student-in-iedc-team",
+          "nss-in-charge",
+          "placement-officer",
+        ],
       },
       {
         title: "Notificaitons",
@@ -60,7 +65,7 @@ export const menu =  [
         icon: "fa-building",
         link: "/admin/departments/edit/electrical-and-electronics-engineering",
         roles: ["electrical-dept-charge"],
-      }, 
+      },
       {
         title: "Facilities",
         icon: "fa-building",

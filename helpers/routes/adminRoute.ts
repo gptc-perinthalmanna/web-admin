@@ -15,10 +15,10 @@ export default function <T>(
       res.status(401).end();
       return;
     }
-    const found = roles.some(r=> user.role.includes(r))
-    if (roles.length > 0 && !found) {
+    const found = roles.some((r) => user.role.includes(r));
+    if (roles.length > 0 && !found && !roles.includes("any")) {
       res
-        .status(403) 
+        .status(403)
         .json({ error: "You are not authorized to access this page" });
       return;
     }

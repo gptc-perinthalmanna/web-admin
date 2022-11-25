@@ -27,24 +27,27 @@ const userValidationSchema: yup.SchemaOf<{}> = yup
   })
   .noUnknown();
 
-export default adminRoute(async (req) => {
-  const { isValid, errors, data } = await validation(
-    userValidationSchema,
-    req.body
-  );
-  if (!isValid) {
-    return { error: errors };
-  }
-  const user = await getUser(data.key);
-  let role = user.role;
-  let phone = user.phone;
-  if (req.session.user.role.includes("admin")) {
-    role = data.role;
-    phone = data.phone;
-  }
-  await createUser({ ...user, ...data, role, phone });
-  return {
-    message: "success",
-    data,
-  };
-});
+export default adminRoute(
+  async (req) => {
+    const { isValid, errors, data } = await validation(
+      userValidationSchema,
+      req.body
+    );
+    if (!isValid) {
+      return { error: errors };
+    }
+    const user = await getUser(data.key);
+    let role = user.role;
+    let phone = user.phone;
+    if (req.session.user.role.includes("admin")) {
+      role = data.role;
+      phone = data.phone;
+    }
+    await createUser({ ...user, ...data, role, phone });
+    return {
+      message: "success",
+      data,
+    };
+  },
+  ["any"]
+);

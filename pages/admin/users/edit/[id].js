@@ -9,7 +9,7 @@ import Admin from "layouts/Admin.js";
 import Form from "components/Forms/Form";
 import { fetchData } from "helpers/fetcher";
 import useUser from "lib/useUser";
-import allRoles from "constants/roles"
+import allRoles from "constants/roles";
 
 export default function EditDetails() {
   const router = useRouter();
@@ -28,9 +28,8 @@ export default function EditDetails() {
 
   useEffect(() => {
     if (!data) return;
-    setRoles(data?.role?.map(role => ({label: role, value: role})));
-  }, [data])
-
+    setRoles(data?.role?.map((role) => ({ label: role, value: role })));
+  }, [data]);
 
   const formik = useFormik({
     initialValues: {
@@ -71,7 +70,7 @@ export default function EditDetails() {
             whatsapp: values?.whatsapp,
           },
           key: data.key,
-          role: roles.map(role => role.value),
+          role: roles.map((role) => role.value),
         })
         .then((res) => {
           toast()
@@ -87,12 +86,17 @@ export default function EditDetails() {
         });
     },
   });
-  
+
   return (
     <>
       <div className="flex flex-wrap">
         <div className="w-full px-4 py-3 mx-auto lg:w-8/12">
-          <EditForm formik={formik} user={user}  roles={roles} setRoles={setRoles} />
+          <EditForm
+            formik={formik}
+            user={user}
+            roles={roles}
+            setRoles={setRoles}
+          />
         </div>
       </div>
     </>
@@ -101,7 +105,7 @@ export default function EditDetails() {
 
 EditDetails.layout = Admin;
 
-const EditForm = ({ formik, user,roles, setRoles }) => (
+const EditForm = ({ formik, user, roles, setRoles }) => (
   <Form onSubmit={formik.handleSubmit}>
     <Form.Title title="Edit User Profile">
       <Form.Button />
@@ -125,13 +129,17 @@ const EditForm = ({ formik, user,roles, setRoles }) => (
       ) : null}
     </Form.Section>
     <Form.Section title={"Official Details"}>
-      <Form.TextInput
-        {...formik.getFieldProps("designation")}
-        label="Designation"
-      />
-      {formik.touched.designation && formik.errors.designation ? (
-        <Form.Error>{formik.errors.designation}</Form.Error>
-      ) : null}
+      {roles.find((e) => e.label === "staff") && (
+        <>
+          <Form.TextInput
+            {...formik.getFieldProps("designation")}
+            label="Designation"
+          />
+          {formik.touched.designation && formik.errors.designation ? (
+            <Form.Error>{formik.errors.designation}</Form.Error>
+          ) : null}
+        </>
+      )}
       <Form.TextInput
         {...formik.getFieldProps("department")}
         label="Department"
@@ -139,14 +147,15 @@ const EditForm = ({ formik, user,roles, setRoles }) => (
       {formik.touched.department && formik.errors.department ? (
         <Form.Error>{formik.errors.department}</Form.Error>
       ) : null}
-     {user?.role?.includes('admin') && <Form.TagsInput
-                label="Tags"
-                size="1/2"
-                value={roles}
-                onChange={(t) => setRoles(t)}
-                options={allRoles.map((tag) => ({label: tag, value: tag}))}
-              />}
-
+      {user?.role?.includes("admin") && (
+        <Form.TagsInput
+          label="Tags"
+          size="1/2"
+          value={roles}
+          onChange={(t) => setRoles(t)}
+          options={allRoles.map((tag) => ({ label: tag, value: tag }))}
+        />
+      )}
     </Form.Section>
     <Form.Section title={"Social Media"}>
       <Form.TextInput
