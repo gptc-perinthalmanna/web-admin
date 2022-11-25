@@ -1,31 +1,37 @@
 import React from "react";
+import { toast } from "tailwind-toast";
 import axios from "axios";
 
-import useUser from 'lib/useUser'
+import useUser from "lib/useUser";
 import Auth from "layouts/Auth.js";
 
 export default function Login() {
-    // here we just check if user is already logged in and redirect to profile
-    const { mutateUser } = useUser({
-      redirectTo: '/admin/dashboard',
-      redirectIfFound: true,
-    })
-    
+  // here we just check if user is already logged in and redirect to profile
+  const { mutateUser } = useUser({
+    redirectTo: "/admin/dashboard",
+    redirectIfFound: true,
+  });
   const onSubmit = (e) => {
     e.preventDefault();
     const body = {
       username: e.currentTarget.username.value,
       password: e.currentTarget.password.value,
-    }
-    try {
-      axios.post('/api/login', body)
-        .then(res => {
-          mutateUser(res.data)
-        })
-    } catch (error) {
-      console.log(error)
-    }
+    };
+    axios
+      .post("/api/login", body)
+      .then((res) => {
+        mutateUser(res.data);
+      })
+      .catch((e) => {
+        toast()
+          .danger("Oops!", e.response.data.message)
+          .with({ color: "bg-red-800" })
+          .from("bottom", "end")
+          .as("pill")
+          .show();
+      });
   };
+
   return (
     <>
       <div className="container h-full px-4 mx-auto">
@@ -89,7 +95,6 @@ export default function Login() {
                     <button
                       className="w-full px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-800 active:bg-blueGray-600 hover:shadow-lg focus:outline-none"
                       type="submit"
-    
                     >
                       Sign In
                     </button>

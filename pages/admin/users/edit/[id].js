@@ -53,7 +53,6 @@ export default function EditDetails() {
       // role: Yup.array().of(Yup.string()),
       phone: Yup.string().min(10).required(),
       address: Yup.string().required(),
-
       facebook: Yup.string().url(),
       linkedin: Yup.string().url(),
       instagram: Yup.string().url(),
