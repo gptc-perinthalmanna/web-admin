@@ -17,7 +17,7 @@ const userValidationSchema: yup.SchemaOf<{}> = yup
     email: yup.string().email().required(),
     password: yup.string().required(),
     designation: yup.string(),
-    yearOfPassout: yup.number(),
+    yearOfPassout: yup.string(),
     department: yup.string().required(),
     createdAt: yup.number().default(function () {
       return Date.now();
