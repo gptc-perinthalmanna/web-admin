@@ -31,7 +31,7 @@ export async function getUser(key: string) {
 }
 
 export async function getMultipleUsers(users: string[]) {
-  const query = users.map((e) => ({ id: e }));
+  const query = users.map((e) => ({ key: e }));
   return (await usersDb.fetch(query)).items as unknown as UserType[];
 }
 

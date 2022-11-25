@@ -65,6 +65,7 @@ export interface UserType {
   role: string[];
   department: string;
   phone: string;
+  id?: string;
   address: string;
   avatar?: string;
   socialLinks: {

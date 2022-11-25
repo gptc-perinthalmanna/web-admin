@@ -52,7 +52,7 @@ export default async function handler(
     const user: UserType = { ...data, role: ["staff"] } as unknown as UserType;
     user.role = ["staff"];
     user.password = await bcrypt.hash(user.password, 10);
-
+    user.id = user.key;
     await createUser(user);
 
     return res.status(200).json({
