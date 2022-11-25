@@ -56,6 +56,7 @@ export const eventsTags = [
   { name: "placement-cell" },
   { name: "boomithraseena-club" },
   { name: "staff-club" },
+  { name: "iedc" },
 ];
 
 export const notificationTags = [
