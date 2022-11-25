@@ -49,10 +49,14 @@ export default async function handler(
       return res.status(400).json({ error: errors });
     }
 
-    const user: UserType = { ...data, role: ["staff"] } as unknown as UserType;
-    user.role = ["staff"];
+    const user: UserType = { ...data } as unknown as UserType;
     user.password = await bcrypt.hash(user.password, 10);
+
+    if (!user.role.includes("staff") || !user.role.includes("student"))
+      user.role = ["student"];
+
     user.id = user.key;
+
     await createUser(user);
 
     return res.status(200).json({
