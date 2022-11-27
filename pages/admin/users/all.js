@@ -11,7 +11,7 @@ export default function Dashboard() {
   return (
     <>
       <h1 className="text-3xl font-bold my-4">All Staffs</h1>
-      <div className="flex flex-wrap gap-4 my-4">
+      <div className="flex w-full flex-wrap gap-4 my-4">
         {!data && !error && <UserCard.Loading />}
         {data &&
           data

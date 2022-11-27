@@ -3,7 +3,16 @@ import React from "react";
 
 import ClickAndEditBtn from "components/Ui/ClickAndEditBtn";
 
-function EventItem({ title, subtitle, date, image, tags, onEdit, onDelete }) {
+function EventItem({
+  title,
+  subtitle,
+  date,
+  image,
+  images,
+  tags,
+  onEdit,
+  onDelete,
+}) {
   return (
     <div className="w-full p-3 xl:w-1/2">
       <div className="flex overflow-hidden bg-white border-transparent rounded-lg shadow-lg">
@@ -17,9 +26,15 @@ function EventItem({ title, subtitle, date, image, tags, onEdit, onDelete }) {
             <h3 className="text-xl font-bold">{title}</h3>
             {date && <h3 className="font-bold">{date}</h3>}
           </div>
-          <div className="flex-grow">
+          <div className="">
             {subtitle && <p className="text-sm">{subtitle}</p>}
           </div>
+          {images && (
+            <div className="text-sm font-bold">
+              +{images.length} other images
+            </div>
+          )}
+          <div className="flex-grow"></div>
           <div className="flex">
             <div className="flex flex-wrap flex-grow">
               {tags?.map((tag, index) => (

@@ -17,8 +17,8 @@ export default function Dashboard() {
     const res = await axios.post("/api/admin/events/delete", {
       key: id,
     });
-    if (res.error) {
-      console.log(res.error);
+    if (res.data.error) {
+      console.log(res.data.error);
     }
     router.reload();
   };
