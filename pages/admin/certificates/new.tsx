@@ -7,10 +7,11 @@ import { toast } from "tailwind-toast";
 
 import Admin from "layouts/Admin.js";
 import Form from "components/Forms/Form";
-import { eventsTags } from "constants/roles";
 import { toastError, toastWarning } from "components/toast";
 import Modal from "components/Ui/Modal";
 import UserSelect from "components/Forms/UserSelect";
+import MinimalUserCard from "components/Ui/MinimalUserCard";
+import { UserType } from "server/db";
 
 const _certificate = {
   key: "3aa9d27c-d46a-4fac-9780-745a1265f19e",
@@ -36,6 +37,7 @@ const _certificate = {
     avatar: "https://img-c.udemycdn.com/user/100x100/48241786_cc5a.jpg",
     designation: "Tradesman in Electronics",
   },
+  logos: ["link"],
   date: "2 Dec 2021",
   duration: "1 day",
   createdBy: "custom",
@@ -52,9 +54,11 @@ type InstructorType = {
 export default function ProgramDetails() {
   const router = useRouter();
   const [image, setimage] = useState(null);
-  const [tags, setTags] = useState<{ lable: string; value: string }[]>([]);
   const [rcount, setRcount] = useState(0);
   const [images, setImages] = useState<string[]>([]);
+  const [showAddInstructorModal, setShowAddInstructorModal] = useState(false);
+
+  const [instructors, setInstructors] = useState<InstructorType[]>([]);
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -80,7 +84,6 @@ export default function ProgramDetails() {
           ...values,
           image,
           images,
-          tags: tags.map((tag) => tag.value),
         })
         .then(() => {
           toast()
@@ -100,7 +103,7 @@ export default function ProgramDetails() {
   return (
     <>
       <div className="flex flex-wrap">
-        <div className="w-full px-4 py-3 mx-auto lg:w-8/12">
+        <div className="w-full container px-4 py-3 mx-auto lg:w-8/12">
           <Form onSubmit={formik.handleSubmit}>
             <Form.Title title="New Program">
               <Form.Button />
@@ -119,29 +122,40 @@ export default function ProgramDetails() {
               <Form.TextInput
                 {...formik.getFieldProps("duration")}
                 label="Program Duration"
-                size="1/3"
-              />
-              <Form.TagsInput
-                label="Tags"
                 size="1/2"
-                defaultValue={tags}
-                onChange={(t) => setTags(t)}
-                options={eventsTags.map((tag) => ({
-                  label: tag.name,
-                  value: tag.name,
-                }))}
               />
             </Form.Section>
-            <Form.Section title={"Photos"}>
-              <Form.Image
-                label="Upload Cover Image"
-                setUrl={setimage}
-                uploadAgain={rcount}
+            <Form.Section title={"Staffs"}>
+              {instructors?.map((currentInstructor) => {
+                return (
+                  <MinimalUserCard
+                    key={currentInstructor?.id}
+                    name={currentInstructor.name}
+                    description={currentInstructor.designation}
+                    onClick={() => {
+                      setInstructors(
+                        instructors.filter(
+                          (e) => e.id !== currentInstructor?.id
+                        )
+                      );
+                    }}
+                  />
+                );
+              })}
+              <MinimalUserCard.NewButton
+                onClick={() => setShowAddInstructorModal(true)}
               />
-              <Form.MultiImage onChange={setImages} />
+            </Form.Section>
+            <Form.Section title={"Advanced Settings"}>
+              <Form.MultiImage title="Upload Logos" onChange={setImages} />
             </Form.Section>
           </Form>
         </div>
+        <InstructorAddModal
+          setShowModal={setShowAddInstructorModal}
+          showModal={showAddInstructorModal}
+          addInstructor={(e) => setInstructors([...instructors, e])}
+        />
       </div>
     </>
   );
@@ -159,28 +173,73 @@ const InstructorAddModal = ({
   addInstructor: (a: InstructorType) => void;
 }) => {
   const [selectedUser, setSelectedUser] = useState<InstructorType>(null);
+  const [existing, setExisting] = useState(true);
+
   return (
     <Modal
       show={showModal}
-      title={"Search user to add into page"}
+      title={"Add Instructor to the Program"}
       onClose={() => {
         setSelectedUser(null);
         setShowModal(false);
       }}
       onConfirm={() => {
         if (selectedUser) {
-          addInstructor(selectedUser);
+          addInstructor({ ...selectedUser, id: selectedUser.id || "custom" });
         }
         setSelectedUser(null);
         setShowModal(false);
       }}
     >
-      <Form.TextInput type="text" label="Position" size="" />
-      <UserSelect
-        onChange={(e, data) => {
-          setSelectedUser(data[e.value]);
-        }}
-      />
+      <div>
+        <Form.ToggleSwitch
+          checked={existing}
+          onChange={(e) => setExisting(e.target.checked)}
+          label="Is existing user"
+        />
+        {existing ? (
+          <UserSelect
+            onChange={(_, data: UserType) => {
+              setSelectedUser({
+                id: data.id,
+                name: data.name,
+                designation: data.designation,
+                institution: "GPC Perinthalmanna",
+              });
+            }}
+          />
+        ) : (
+          <div>
+            <Form.TextInput
+              value={selectedUser?.name}
+              label="Name"
+              onChange={(e) =>
+                setSelectedUser({ ...selectedUser, name: e.target.value })
+              }
+            />
+            <Form.TextInput
+              value={selectedUser?.designation}
+              label="Designation"
+              onChange={(e) =>
+                setSelectedUser({
+                  ...selectedUser,
+                  designation: e.target.value,
+                })
+              }
+            />
+            <Form.TextInput
+              value={selectedUser?.institution}
+              label="Institution"
+              onChange={(e) =>
+                setSelectedUser({
+                  ...selectedUser,
+                  institution: e.target.value,
+                })
+              }
+            />
+          </div>
+        )}
+      </div>
     </Modal>
   );
 };

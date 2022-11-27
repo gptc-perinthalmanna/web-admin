@@ -24,6 +24,25 @@ Form.DatePicker = DateSelect;
 Form.TagsInput = TagsInput;
 Form.Error = Error;
 Form.MultiImage = MultiImageUpload;
+Form.ToggleSwitch = ToggleSwitch;
+
+function ToggleSwitch({ label, ...props }) {
+  return (
+    <div className="flex mb-3">
+      <div className="form-check form-switch">
+        <label className="cursor-pointer form-check-label select-none inline-block text-gray-800">
+          <input
+            className="form-check-input mr-2 appearance-none w-5 p-2 rounded-full float-left h-5 align-top bg-no-repeat bg-contain bg-white focus:outline-none cursor-pointer shadow-sm"
+            type="checkbox"
+            role="switch"
+            {...props}
+          />
+          {label}
+        </label>
+      </div>
+    </div>
+  );
+}
 
 function FormTitle({ title, children }) {
   return (
@@ -51,7 +70,7 @@ function Button({ title = "Save", className = "", ...props }) {
   );
 }
 
-function TextInput({ size, label, ...props }) {
+function TextInput({ size = "full", label, ...props }) {
   let sizeClass;
   switch (size) {
     case "1/2":
@@ -218,7 +237,11 @@ function TagsInput({ label, options, defaultValue, ...props }) {
   );
 }
 
-function MultiImageUpload({ onUpload = () => null, onChange }) {
+function MultiImageUpload({
+  onUpload = () => null,
+  onChange,
+  title = "Upload Images",
+}) {
   const [loading, setLoading] = React.useState(false);
   const [imageUrls, setImageUrls] = useState([]);
   const uploadToClient = async (event) => {
@@ -242,7 +265,7 @@ function MultiImageUpload({ onUpload = () => null, onChange }) {
   return (
     <div className="relative w-full px-4 mb-3">
       <label className="block mb-2 text-xs font-bold uppercase text-blueGray-600">
-        Upload Images
+        {title}
       </label>
       <div className="flex flex-col ">
         {/* eslint-disable-next-line @next/next/no-img-element */}

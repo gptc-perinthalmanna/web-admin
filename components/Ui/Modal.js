@@ -16,7 +16,7 @@ function Modal({
   return (
     <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full min-h-screen bg-pink-600 bg-opacity-20 z-3">
       <div className="bg-white rounded-lg">
-        <div className="flex border-t-8 border-pink-600 rounded-lg w-96">
+        <div className="flex border-t-8 border-pink-600 rounded-lg w-[600px]">
           <div className="flex justify-center w-1/3 pt-6">
             <i
               className={
