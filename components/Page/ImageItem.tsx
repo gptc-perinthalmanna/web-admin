@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import { useSWRConfig } from "swr";
@@ -6,8 +6,9 @@ import { toastSuccess } from "components/toast";
 
 function ImageItem(image) {
   const { mutate } = useSWRConfig();
-
+  const [loading, setLoading] = useState(false);
   const deleteImage = async () => {
+    setLoading(true);
     const res = await axios.post<{ error?: string }>(
       "/api/admin/images/delete",
       {
@@ -19,6 +20,7 @@ function ImageItem(image) {
     }
     mutate("/api/admin/images/all");
     toastSuccess("Image successfully deleted!");
+    setLoading(false);
   };
 
   return (
@@ -46,7 +48,11 @@ function ImageItem(image) {
                     onClick={deleteImage}
                     className="p-2 px-4 mr-2 text-gray-100 bg-red-500 rounded-md shadow-md cursor-pointer duration-300 hover:bg-red-700 "
                   >
-                    <i className="fa fa-trash" />
+                    <i
+                      className={`fa ${
+                        loading ? "fa-spinner animate-spin" : "fa-trash"
+                      }`}
+                    />
                   </button>
                 </div>
               </div>
