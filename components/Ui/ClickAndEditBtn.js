@@ -6,7 +6,7 @@ function ClickAndEditBtn({ onDelete, onEdit }) {
       {onEdit && (
         <a
           onClick={onEdit}
-          className="pr-1 mr-1 border-r-2 border-gray-500 cursor-pointer hover:text-blue-700 "
+          className="pr-1 mx-2  border-gray-500 cursor-pointer hover:text-blue-700 "
         >
           <i className="fas fa-edit"></i>
         </a>
@@ -14,7 +14,7 @@ function ClickAndEditBtn({ onDelete, onEdit }) {
       {onDelete && (
         <a
           onClick={onDelete}
-          className="mr-2 cursor-pointer hover:text-red-700 "
+          className="mx-2 cursor-pointer hover:text-red-700 "
         >
           <i className="fas fa-trash-alt"></i>
         </a>

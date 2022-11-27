@@ -1,5 +1,5 @@
 import React from "react";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
 import Admin from "layouts/Admin.js";
 import { fetchData } from "helpers/fetcher";
@@ -10,16 +10,15 @@ export default function Dashboard() {
   const router = useRouter();
   return (
     <>
-      <div className="flex flex-wrap">
+      <h1 className="text-3xl font-bold my-4">All Staffs</h1>
+      <div className="flex flex-wrap gap-4 my-4">
         {!data && !error && <UserCard.Loading />}
         {data &&
           data.map((user) => (
             <UserCard
               {...user}
               key={user.key}
-              onEdit={() =>
-                router.push(`/admin/users/edit/${user.key}`)
-              }
+              onEdit={() => router.push(`/admin/users/edit/${user.key}`)}
             />
           ))}
       </div>

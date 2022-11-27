@@ -10,14 +10,17 @@ function UserCard({
   socialLinks,
   onEdit,
   onDelete,
+  avatar,
 }) {
   return (
-    <div className="w-full p-3 xl:w-1/2">
-      <div className="p-3 border-2 rounded-md bg-rose-50 border-rose-500">
+    <div className="max-w-sm w-full">
+      <div className="overflow-hidden h-32 border-2 rounded-md bg-indigo-50 shadow-md border-sky-100">
         <div className="flex">
-          <div className="flex-grow">
-            <h3 className="text-xl font-bold text-rose-800">{name}</h3>
-            <h5 className="text-gray-600">
+          <img className="w-24 h-32 object-cover" src={avatar} />
+
+          <div className="flex-grow p-2">
+            <h3 className="text-lg font-bold text-rose-800">{name}</h3>
+            <h5 className="text-gray-600 text-sm">
               {designation}, {department}
             </h5>
             <p className="text-xs text-rose-400">{key}</p>
@@ -25,14 +28,18 @@ function UserCard({
               {phone && phone.length > 0 && (
                 <i className="mr-2 fas fa-phone-alt"></i>
               )}
-              {socialLinks && socialLinks.facebook && <i className="mr-2 fab fa-facebook"></i>}
-              {socialLinks && socialLinks.linkedin && <i className="mr-2 fab fa-linkedin"></i>}
+              {socialLinks && socialLinks.facebook && (
+                <i className="mr-2 fab fa-facebook"></i>
+              )}
+              {socialLinks && socialLinks.linkedin && (
+                <i className="mr-2 fab fa-linkedin"></i>
+              )}
               {socialLinks && socialLinks.instagram && (
                 <i className="mr-2 fab fa-instagram"></i>
               )}
             </div>
           </div>
-          <div>
+          <div className="mr-2 mt-2">
             <ClickAndEditBtn onDelete={onDelete} onEdit={onEdit} />
           </div>
         </div>
