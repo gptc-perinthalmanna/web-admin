@@ -8,8 +8,8 @@ export async function getFile(key: string) {
 }
 
 export async function getFiles(tag: string) {
-    const res = await filesDB.fetch({"tags?contains": tag});
-    return res.items as unknown as FileType[] | null;
+  const res = await filesDB.fetch({ "tags?contains": tag });
+  return res.items as unknown as FileType[] | null;
 }
 
 export async function createFile(file: {}) {
@@ -25,9 +25,9 @@ export async function getAllFIles() {
 export async function deleteFile(key: string) {
   let deleted = await filesDB.get(key);
   if (!deleted) return null;
-  await deletedDB.put({...deleted, key: uuidv4()})
+  await deletedDB.put({ ...deleted, key: uuidv4() });
   await filesDB.delete(key);
-  return true
+  return true;
 }
 
 export async function createImage(file: {}) {
@@ -43,4 +43,12 @@ export async function getImage(key: string) {
 export async function getAllImages() {
   const res = await imagesDB.fetch();
   return res.items as unknown as ImageType[] | null;
+}
+
+export async function deleteImage(key: string) {
+  const deleted = await imagesDB.get(key);
+  if (!deleted) return false;
+  await deletedDB.put({ ...deleted, key: uuidv4() });
+  console.log(await imagesDB.delete(key));
+  return true;
 }

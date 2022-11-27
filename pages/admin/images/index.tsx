@@ -1,5 +1,5 @@
 import React from "react";
-import Admin from "layouts/Admin.js";
+import Admin from "layouts/Admin";
 import { fetchData } from "helpers/fetcher";
 import ImageItem from "components/Page/ImageItem";
 
@@ -9,7 +9,10 @@ export default function Dashboard() {
     <>
       <div className="flex flex-wrap">
         {!data && !error && <ImageItem.Loading />}
-        {data && data.map((event) => <ImageItem {...event} key={event.key} />)}
+        {data &&
+          data.map((image) => (
+            <ImageItem {...image} id={image.key} key={image.key} />
+          ))}
       </div>
     </>
   );
