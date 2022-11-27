@@ -14,13 +14,15 @@ export default function Dashboard() {
       <div className="flex flex-wrap gap-4 my-4">
         {!data && !error && <UserCard.Loading />}
         {data &&
-          data.map((user) => (
-            <UserCard
-              {...user}
-              key={user.key}
-              onEdit={() => router.push(`/admin/users/edit/${user.key}`)}
-            />
-          ))}
+          data
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((user) => (
+              <UserCard
+                {...user}
+                key={user.key}
+                onEdit={() => router.push(`/admin/users/edit/${user.key}`)}
+              />
+            ))}
       </div>
     </>
   );
