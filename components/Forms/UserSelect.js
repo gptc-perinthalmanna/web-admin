@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Select from "react-select";
 import { fetchData } from "helpers/fetcher";
 
-function UserSelect({ onChange, ...props }) {
-  const { data } = fetchData("/api/admin/users/all");
+function UserSelect({ onChange, type = "staff", ...props }) {
+  const { data } = fetchData(`/api/admin/users/all${type && `?role=${type}`}`);
   const [_value, setValue] = useState();
   console.log(_value);
   return (

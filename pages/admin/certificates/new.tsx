@@ -180,7 +180,6 @@ const InstructorAddModal = ({
         onChange={(e, data) => {
           setSelectedUser(data[e.value]);
         }}
-        value={undefined}
       />
     </Modal>
   );

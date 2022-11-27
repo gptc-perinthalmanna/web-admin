@@ -22,7 +22,6 @@ interface UserType {
 
 export async function getAllUsers(role?: string) {
   const query = role ? { "role?contains": role } : {};
-  console.log(query);
   const users = await usersDb.fetch(query);
   if (users.count === 0) return [];
   return users.items as unknown as UserType[] | undefined;
