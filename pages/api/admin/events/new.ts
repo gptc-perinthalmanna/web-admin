@@ -4,6 +4,8 @@ import * as yup from "yup";
 import { EventType } from "server/db";
 import { validation } from "helpers/validation";
 import { createEvent } from "server/pages";
+import { withIronSessionApiRoute } from "iron-session/next";
+import { sessionOptions } from "lib/session";
 
 const userValidationSchema: yup.SchemaOf<{}> = yup.object().shape({
   key: yup.string().default(function () {
@@ -13,11 +15,12 @@ const userValidationSchema: yup.SchemaOf<{}> = yup.object().shape({
   subtitle: yup.string().min(5),
   tags: yup.array().of(yup.string()).min(1).required(),
   image: yup.string().url().required(),
+  images: yup.array().of(yup.string()),
   date: yup.string().required(),
   type: yup.string(),
 });
 
-export default async function handler(
+async function handler(
   req: NextApiRequest,
   res: NextApiResponse<{} | { error: string }>
 ) {
@@ -30,6 +33,8 @@ export default async function handler(
     if (!isValid) {
       return res.status(400).json({ error: errors });
     }
+    console.log("User: --- ");
+    console.log();
 
     const file: EventType = {
       ...data,
@@ -45,3 +50,5 @@ export default async function handler(
     });
   }
 }
+
+export default withIronSessionApiRoute(handler, sessionOptions);

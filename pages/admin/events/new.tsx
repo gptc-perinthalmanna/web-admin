@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -7,19 +7,20 @@ import { toast } from "tailwind-toast";
 
 import Admin from "layouts/Admin.js";
 import Form from "components/Forms/Form";
-import { eventsTags } from "constants/roles"
+import { eventsTags } from "constants/roles";
+import { toastError, toastWarning } from "components/toast";
 
 export default function EditDetails() {
   const router = useRouter();
-  const [image, setimage] = useState(null)
-  const [tags, setTags] = useState([]);
+  const [image, setimage] = useState(null);
+  const [tags, setTags] = useState<{ lable: string; value: string }[]>([]);
   const [rcount, setRcount] = useState(0);
-
+  const [images, setImages] = useState<string[]>([]);
   const formik = useFormik({
     initialValues: {
-        title: "",
-        subtitle: "",
-        date: "",
+      title: "",
+      subtitle: "",
+      date: "",
     },
     validationSchema: Yup.object({
       title: Yup.string()
@@ -29,20 +30,20 @@ export default function EditDetails() {
       date: Yup.string().required("This Field is Required"),
     }),
     onSubmit: (values) => {
-      if(!image && rcount === 0){
+      if (!image && rcount === 0) {
         setRcount(rcount + 1);
-        toast().warning("Uploading image.. Retry again.").with({ color: "bg-yellow-800" }).from("bottom", "end")
-        .as("pill")
-        .show();
-      }else{
+        toastWarning("Uploading image.. Retry again.");
+      } else {
         setRcount(0);
       }
-
       axios
         .post("/api/admin/events/new/", {
-          ...values, image, tags : tags.map(tag => tag.value)
+          ...values,
+          image,
+          images,
+          tags: tags.map((tag) => tag.value),
         })
-        .then((res) => {
+        .then(() => {
           toast()
             .success("Great!", "Created new event!")
             .with({ color: "bg-green-800" })
@@ -52,13 +53,11 @@ export default function EditDetails() {
           router.push("/admin/events");
         })
         .catch((err) => {
-          toast().success('Error', err.response.data.error).with({ color: "bg-red-800" }).from("bottom", "end")
-          .as("pill")
-          .show(); //show pill shaped toast;
+          toastError(err.response.data.error);
         });
     },
   });
-console.log(image)
+
   return (
     <>
       <div className="flex flex-wrap">
@@ -76,22 +75,31 @@ console.log(image)
               <Form.TextInput
                 {...formik.getFieldProps("subtitle")}
                 label="Event Subtitle"
+                size="1/2"
               />
-                <Form.TextInput
+              <Form.TextInput
                 {...formik.getFieldProps("date")}
                 label="Event Date"
                 size="1/3"
               />
-               <Form.TagsInput
+              <Form.TagsInput
                 label="Tags"
                 size="1/2"
                 defaultValue={tags}
                 onChange={(t) => setTags(t)}
-                options={eventsTags.map((tag) => ({label: tag.name, value: tag.name}))}
+                options={eventsTags.map((tag) => ({
+                  label: tag.name,
+                  value: tag.name,
+                }))}
               />
             </Form.Section>
             <Form.Section title={"Photos"}>
-            <Form.Image setUrl={setimage} uploadAgain={rcount}  />
+              <Form.Image
+                label="Upload Cover Image"
+                setUrl={setimage}
+                uploadAgain={rcount}
+              />
+              <Form.MultiImage onChange={setImages} />
             </Form.Section>
           </Form>
         </div>

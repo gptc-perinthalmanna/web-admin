@@ -23,6 +23,7 @@ Form.Image = UploadImage;
 Form.DatePicker = DateSelect;
 Form.TagsInput = TagsInput;
 Form.Error = Error;
+Form.MultiImage = MultiImageUpload;
 
 function FormTitle({ title, children }) {
   return (
@@ -35,10 +36,10 @@ function FormTitle({ title, children }) {
   );
 }
 
-function Button({ title = "Save", className, ...props }) {
+function Button({ title = "Save", className = "", ...props }) {
   return (
     <button
-    type="submit"
+      type="submit"
       className={
         "px-4 py-2 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-700 active:bg-blueGray-600 hover:shadow-md focus:outline-none " +
         className
@@ -115,47 +116,37 @@ function UploadImage({
   setUrl = (object) => console.log(object),
   setKey = (object) => console.log(object),
   uploadAgain = 0,
+  label = "Upload image",
 }) {
   const [file, setFile] = React.useState(null);
   const [createObjectURL, setCreateObjectURL] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
 
-  useEffect(() => {
-    if(!!file)
-    uploadToServer();
-  }, [uploadAgain]);
-
-  const uploadToClient = (event) => {
+  const uploadToClient = async (event) => {
     if (event.target.files && event.target.files[0]) {
+      setLoading(true);
       const i = event.target.files[0];
       setFile(i);
       setCreateObjectURL(URL.createObjectURL(i));
-      setLoading(true);
-      uploadToServer();
-    }
-  };
 
-  const uploadToServer = async () => {
-    const body = new FormData();
-    if (!file) {
+      const body = new FormData();
+
+      body.append("file", i);
+      const response = await fetch("/api/public/media/upload", {
+        method: "POST",
+        body,
+      });
+      const res = await response.json();
+      setUrl(res.url);
+      setKey(res.key);
       setLoading(false);
-      return;
     }
-    body.append("file", file);
-    const response = await fetch("/api/public/media/upload", {
-      method: "POST",
-      body,
-    });
-    setLoading(false);
-    const res = await response.json();
-    setUrl(res.url);
-    setKey(res.key);
   };
 
   return (
     <div className="relative w-full px-4 mb-3">
       <label className="block mb-2 text-xs font-bold uppercase text-blueGray-600">
-        UploadImage
+        {label}
       </label>
       <div className="flex flex-col ">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -223,6 +214,79 @@ function TagsInput({ label, options, defaultValue, ...props }) {
         {label}
       </label>
       <Select options={options} {...props} defaultValue={defaultv} isMulti />
+    </div>
+  );
+}
+
+function MultiImageUpload({ onUpload = () => null, onChange }) {
+  const [loading, setLoading] = React.useState(false);
+  const [imageUrls, setImageUrls] = useState([]);
+  const uploadToClient = async (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setLoading(true);
+      const i = event.target.files[0];
+      const body = new FormData();
+      body.append("file", i);
+      const response = await fetch("/api/public/media/upload", {
+        method: "POST",
+        body,
+      });
+      const res = await response.json();
+      onUpload(res.url);
+      setImageUrls([...imageUrls, res.url]);
+      onChange([...imageUrls, res.url]);
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="relative w-full px-4 mb-3">
+      <label className="block mb-2 text-xs font-bold uppercase text-blueGray-600">
+        Upload Images
+      </label>
+      <div className="flex flex-col ">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+
+        <div className="relative flex items-center flex-wrap gap-4 mb-3 rounded-md">
+          {imageUrls.map((e, i) => (
+            <div
+              className="relative rounded group shadow overflow-hidden"
+              key={`${e}${i}`}
+            >
+              <Image
+                src={e}
+                layout="fixed"
+                className="relative"
+                objectFit="cover"
+                width={160}
+                height={160}
+                alt="sample"
+              />
+              <i
+                onClick={() => {
+                  const img = imageUrls.filter((k) => k !== e);
+                  setImageUrls(img);
+                  onChange(img);
+                }}
+                className="fa invisible group-hover:visible p-2 rounded bg-rose-500 text-white fa-trash absolute top-3 right-3"
+              />
+            </div>
+          ))}
+          <label className="flex text-center cursor-pointer hover:bg-gray-100 items-center justify-center  transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring h-40 w-40">
+            <input onChange={uploadToClient} type="file" className="hidden">
+              {/* <i className="mr-2 fas fa-file-image" /> Choose Image */}
+            </input>
+            <div>
+              <i
+                className={`fas text-4xl ${
+                  loading ? "fa-spinner animate-spin" : "fa-upload"
+                }`}
+              />
+              <p>Upload Image</p>
+            </div>
+          </label>
+        </div>
+      </div>
     </div>
   );
 }
