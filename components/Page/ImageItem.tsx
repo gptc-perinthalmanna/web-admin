@@ -9,7 +9,7 @@ function ImageItem(image) {
 
   const deleteImage = async () => {
     const res = await axios.post<{ error?: string }>(
-      "/api/admin/events/delete",
+      "/api/admin/images/delete",
       {
         key: image.id,
       }

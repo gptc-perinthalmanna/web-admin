@@ -49,6 +49,6 @@ export async function deleteImage(key: string) {
   const deleted = await imagesDB.get(key);
   if (!deleted) return false;
   await deletedDB.put({ ...deleted, key: uuidv4() });
-  console.log(await imagesDB.delete(key));
+  await imagesDB.delete(key);
   return true;
 }
