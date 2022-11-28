@@ -146,6 +146,7 @@ export default function ProgramDetails() {
                 onClick={() => setShowAddInstructorModal(true)}
               />
             </Form.Section>
+            <Form.Section title={"Participants"}></Form.Section>
             <Form.Section title={"Advanced Settings"}>
               <Form.MultiImage title="Upload Logos" onChange={setImages} />
             </Form.Section>

@@ -1,5 +1,5 @@
 import adminRoute from "helpers/routes/adminRoute";
-import { getUser } from "server/users";
+import { getUser, getUserByPhone } from "server/users";
 
 export default adminRoute(
   async (req) => {
@@ -13,7 +13,9 @@ export default adminRoute(
       return {
         error: "User not found",
       };
-    const user = await getUser(id);
+    const query = req.query?.type?.toString() || undefined;
+    const user =
+      query === "phone" ? await getUserByPhone(id) : await getUser(id);
     return { ...user, password: undefined };
   },
   ["any"]

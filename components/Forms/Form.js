@@ -25,6 +25,7 @@ Form.TagsInput = TagsInput;
 Form.Error = Error;
 Form.MultiImage = MultiImageUpload;
 Form.ToggleSwitch = ToggleSwitch;
+Form.UploadFIle = UploadFile;
 
 function ToggleSwitch({ label, ...props }) {
   return (
@@ -308,6 +309,27 @@ function MultiImageUpload({
               <p>Upload Image</p>
             </div>
           </label>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function UploadFile({ label = "Upload File", ...props }) {
+  return (
+    <div className="relative w-full px-4 mb-3">
+      <label className="block mb-2 text-xs font-bold uppercase text-blueGray-600">
+        {label}
+      </label>
+      <div className="flex flex-col ">
+        <div className="flex items-center">
+          <input
+            {...props}
+            type="file"
+            className="px-3 py-3 mr-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow w-96 placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
+          >
+            {/* <i className="mr-2 fas fa-file-image" /> Choose Image */}
+          </input>
         </div>
       </div>
     </div>

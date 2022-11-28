@@ -27,6 +27,12 @@ export async function getAllUsers(role?: string) {
   return users.items as unknown as UserType[] | undefined;
 }
 
+export async function getUserByPhone(phone: string) {
+  const users = await usersDb.fetch({ phone: phone });
+  if (!users || users.count === 0) return [];
+  return users.items[0] as unknown as UserType;
+}
+
 export async function getUser(key: string) {
   const user = await usersDb.get(key);
   return user as unknown as UserType | null;
