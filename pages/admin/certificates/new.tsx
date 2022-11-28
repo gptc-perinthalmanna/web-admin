@@ -7,11 +7,12 @@ import { toast } from "tailwind-toast";
 
 import Admin from "layouts/Admin.js";
 import Form from "components/Forms/Form";
-import { toastError, toastWarning } from "components/toast";
+import { toastError, toastSuccess, toastWarning } from "components/toast";
 import Modal from "components/Ui/Modal";
 import UserSelect from "components/Forms/UserSelect";
 import MinimalUserCard from "components/Ui/MinimalUserCard";
 import { UserType } from "server/db";
+import readXlsxFile from "read-excel-file";
 
 const _certificate = {
   key: "3aa9d27c-d46a-4fac-9780-745a1265f19e",
@@ -51,14 +52,36 @@ type InstructorType = {
   institution: string;
 };
 
+const xlsSchema = {
+  Name: {
+    // JSON object property name.
+    prop: "name",
+    type: String,
+  },
+  "Phone Number": {
+    prop: "phone",
+    type: Number,
+    required: true,
+  },
+  Description: {
+    prop: "designation",
+    type: String,
+  },
+};
+
+type HolderInterface = {
+  name?: string;
+  phone: string;
+  description?: string;
+};
 export default function ProgramDetails() {
-  const router = useRouter();
-  const [image, setimage] = useState(null);
-  const [rcount, setRcount] = useState(0);
+  // const router = useRouter();
+  const [holders, setHolders] = useState<HolderInterface[]>([]);
+  const [fileError, setFileError] = useState(null);
   const [images, setImages] = useState<string[]>([]);
   const [showAddInstructorModal, setShowAddInstructorModal] = useState(false);
-
   const [instructors, setInstructors] = useState<InstructorType[]>([]);
+
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -73,32 +96,33 @@ export default function ProgramDetails() {
       date: Yup.string().required("This Field is Required"),
     }),
     onSubmit: (values) => {
-      if (!image && rcount === 0) {
-        setRcount(rcount + 1);
-        toastWarning("Uploading image.. Retry again.");
-      } else {
-        setRcount(0);
-      }
       axios
-        .post("/api/admin/events/new/", {
+        .post("/api/", {
           ...values,
-          image,
-          images,
+          logos: images,
+          staffs: instructors,
+          holders,
         })
         .then(() => {
-          toast()
-            .success("Great!", "Created new event!")
-            .with({ color: "bg-green-800" })
-            .from("bottom", "end")
-            .as("pill")
-            .show(); //show pill shaped toast
-          router.push("/admin/events");
+          toastSuccess("Added the programme and Generated certificates");
+          // router.push("/admin/events");
         })
         .catch((err) => {
           toastError(err.response.data.error);
         });
     },
   });
+
+  const onChangeFIle = (file: File) => {
+    readXlsxFile(file, { schema: xlsSchema }).then(({ rows, errors }) => {
+      if (errors.length > 0) {
+        setFileError(
+          `Error: ${errors[0].row} row, ${errors[0].column} column - ${errors[0].reason}`
+        );
+      }
+      setHolders(rows as HolderInterface[]);
+    });
+  };
 
   return (
     <>
@@ -146,7 +170,12 @@ export default function ProgramDetails() {
                 onClick={() => setShowAddInstructorModal(true)}
               />
             </Form.Section>
-            <Form.Section title={"Participants"}></Form.Section>
+            <Form.Section title={"Participants"}>
+              <Form.UploadFIle
+                onChange={(e) => onChangeFIle(e.target.files[0])}
+              />
+              {fileError && <span>{fileError}</span>}
+            </Form.Section>
             <Form.Section title={"Advanced Settings"}>
               <Form.MultiImage title="Upload Logos" onChange={setImages} />
             </Form.Section>
