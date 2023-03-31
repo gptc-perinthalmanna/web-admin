@@ -50,6 +50,8 @@ export default async function handler(
     }
 
     const user: UserType = { ...data } as unknown as UserType;
+
+    console.log(user);
     user.password = await bcrypt.hash(user.password, 10);
 
     if (!user.role.includes("staff") || !user.role.includes("student"))
