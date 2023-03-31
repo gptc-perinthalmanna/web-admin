@@ -1,4 +1,5 @@
 import { Deta } from "deta"; // import Deta
+import { ProgramApiIn, ProgramStaff } from "lib/types";
 
 // Initialize with a Project Key
 const deta = Deta(process.env.DETA_PROJECT_ID);
@@ -20,9 +21,36 @@ export const imagesDB = deta.Base("media_images");
 
 export const otherDB = deta.Base("other_details");
 
+export const programsDB = deta.Base("post_programs");
+export const certificatesDB = deta.Base("post_certificates");
+
 export const deletedDB = deta.Base("deleted_records");
 
 // Types Definitions
+
+export interface ProgramType extends ProgramApiIn {
+  createdAt: number;
+  createdBy: string;
+  key: string;
+}
+
+export interface CertificatesType {
+  key: string;
+  referance: string;
+  title: string;
+  instructors: ProgramStaff[];
+  holder: {
+    id: string;
+    name: string;
+    avatar: string;
+    designation: string;
+  };
+  logos: string[];
+  date: string;
+  duration: string;
+  createdBy: string;
+  createdAt: number;
+}
 
 export interface NewsMediaType {
   key: string;
@@ -62,6 +90,7 @@ export interface UserType {
   createdAt: string;
   updatedAt: string;
   designation: string;
+  yearOfPassout?: string;
   role: string[];
   department: string;
   phone: string;

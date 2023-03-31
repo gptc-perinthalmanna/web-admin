@@ -77,6 +77,7 @@ export const filesTags = [
   { name: "previous-question-paper" },
   { name: "govt-order" },
   { name: "downloads" },
+  { name: "student-downloads" },
   { name: "extension-of-approval" },
   { name: "academic-calendar" },
   { name: "college-magazine" },

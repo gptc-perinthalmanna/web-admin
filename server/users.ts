@@ -8,6 +8,8 @@ interface UserType {
   createdAt: string;
   updatedAt: string;
   designation: string;
+  yearOfPassout?: string;
+  avatar?: string;
   role: string;
   department: string;
   phone: string;
@@ -29,7 +31,7 @@ export async function getAllUsers(role?: string) {
 
 export async function getUserByPhone(phone: string) {
   const users = await usersDb.fetch({ phone: phone });
-  if (!users || users.count === 0) return [];
+  if (!users || users.count === 0) return null;
   return users.items[0] as unknown as UserType;
 }
 

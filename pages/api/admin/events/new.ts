@@ -33,8 +33,6 @@ async function handler(
     if (!isValid) {
       return res.status(400).json({ error: errors });
     }
-    console.log("User: --- ");
-    console.log();
 
     const file: EventType = {
       ...data,
