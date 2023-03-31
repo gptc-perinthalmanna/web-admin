@@ -25,6 +25,7 @@ const userValidationSchema: yup.SchemaOf<{}> = yup
     updatedAt: yup.number().default(function () {
       return Date.now();
     }),
+    role: yup.array().of(yup.string()).default(["student"]),
     phone: yup.string().required(),
     address: yup.string().required(),
     socialLinks: yup.object().shape({
