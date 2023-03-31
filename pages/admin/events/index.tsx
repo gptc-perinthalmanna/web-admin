@@ -8,9 +8,10 @@ import { fetchData } from "helpers/fetcher";
 import EventItem from "components/Page/EventItem";
 import PageTitle from "components/Ui/PageTitle";
 import Button from "components/Ui/Button";
+import { EventType } from "server/db";
 
 export default function Dashboard() {
-  const { data, error } = fetchData("/api/admin/events/all");
+  const { data, error } = fetchData<EventType[]>("/api/admin/events/all");
   const router = useRouter();
   const { user } = useUser();
   const deleteEvent = async (id) => {
@@ -36,7 +37,12 @@ export default function Dashboard() {
         {data &&
           data.map((event) => (
             <EventItem
+              image={event.image || ""}
+              images={event.images}
               {...event}
+              onEdit={() => {
+                return null;
+              }}
               onDelete={
                 user?.role.includes("admin")
                   ? () => {
